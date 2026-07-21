@@ -1,0 +1,304 @@
+# Changelog
+
+All notable changes to SERIXA are documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/),
+and this project adheres to [Semantic Versioning](https://semver.org/).
+
+## [v0.11.1] — 2026-07-22
+
+Monorepo ecosystem layout. **No public API changes.**
+
+### Changed
+- Repository restructured: production package lives in `framework/`; optional `packages/*`, `starters/*`, and `tools/` added as skeletons
+- Root `composer.json` is a private meta-package that delegates `test` / `qa` to `framework/`
+- CLI reports `0.11.1`; runtime script version string aligned
+
+### Added
+- `docs/monorepo.md` — why monorepo, path repos, package lifecycle, split strategy
+- Package skeletons: icons, charts, calendar, admin, auth-ui, devtools
+- Starter skeletons: blog, admin, crm, ecommerce, portfolio, docs
+- CI jobs for framework, package skeletons, starter skeletons, and root meta QA
+
+## [v0.11.0] — 2026-07-22
+
+Polish release following the pre-1.0 validation pass (`validation/REPORT.md`): performance, DX, and beginner documentation. No breaking changes.
+
+### Added
+- Beginner documentation: `docs/getting-started.md`, `docs/first-blog.md` (30-minute blog tutorial), `docs/first-dashboard.md`, `docs/project-structure.md`, `docs/deployment.md`, `docs/faq.md`, `docs/troubleshooting.md`
+- `Padding::sm()` / `md()` / `lg()` shortcuts for common insets (`p-4` / `p-6` / `p-8`), alongside the existing fluent side setters
+- `Column::alignStretch()` / `Row::alignStretch()` for explicit stretch alignment (matches the existing default, now settable fluently)
+- `Scaffold::content()` as a readability alias for `Scaffold::body()`
+- `Stack::clip()` to opt into `overflow-hidden` on layered content
+- CLI: fast path for `serixa version` / `--version` / `-V` that skips command registration
+- CLI: richer `serixa help` / no-argument banner with quick-start commands and doc links
+- CLI: `serixa new` warns when run from inside the framework tree (path-repository recursion risk)
+- Generated project `README.md` now links `docs/getting-started.md`, `docs/first-blog.md`, `docs/first-dashboard.md`, `docs/troubleshooting.md`
+- Playground polish: minor demo/page cleanups following the validation pass
+
+### Changed
+- `DefaultTheme::classes()` now memoizes resolved class lists per component+state key; `token()` lookups are cached — addresses the ~0.8 ms/lookup cost measured in `docs/performance.md` (see `docs/performance-v011.md` for before/after tables)
+- `WidgetRegistry::defaultMetadata()` memoizes the built-in metadata list
+- `Serixa\Widget\Widget` shares one `HtmlEscaper`, `AttributeBag`, and `ClassMerger` instance across widget instances by default instead of constructing new ones per widget
+- Client runtime (`assets/runtime/serixa.js`) only mounts an interactive module (modal, dropdown, tabs, accordion, toast, …) when a matching marker is present in the DOM subtree being booted, instead of unconditionally mounting every module
+- Validation error messages from layout/theme widgets (`Padding`, `Row`, `Column`, `DefaultTheme`) and pipeline passes now include actionable context
+- `docs/cli.md` updated for `v0.11.0` and cross-linked to the new beginner docs
+- `README.md`: new "Beginner path" section linking `getting-started.md` / `first-blog.md` / `first-dashboard.md`, expanded documentation index
+- Playground demo extracts shared `PageSection` / `StatGrid` components to cut page duplication
+- Generated project `README.md` stub expanded with setup, structure, and learning links
+
+### Deprecated
+- None
+
+### Fixed
+- None
+
+### Performance
+- Theme 3 000 class lookups: ~2 287 ms → ~43 ms (~53×) — see `docs/performance-v011.md`
+
+## [v0.10.0] — 2026-07-22
+
+### Added
+- SERIXA CLI (`bin/serixa`) with `Application`, `CommandRegistry`, and pluggable commands
+- Commands: `new`, `make:page`, `make:component`, `make:layout`, `make:theme`, `make:plugin`, `docs`, `dev`, `build`
+- Filesystem template engine + `/templates` stubs (project / page / component / layout / theme / plugin)
+- Project generator presets: `blog`, `crm`, `ecommerce`
+- `Serixa\Console\Plugin::registerCommand()` for future packages
+- Docs: `docs/cli.md`, `docs/scaffolding.md`, `docs/project-generator.md`, `docs/templates.md`
+
+### Changed
+- Composer `bin` exposes `serixa`
+
+### Deprecated
+- None
+
+### Fixed
+- None
+
+## [v0.9.0] — 2026-07-22
+
+### Added
+- Interactive overlays: `Modal`, `Drawer`, `Popover`, `Tooltip`
+- Feedback: `Toast`, `Alert`, `Badge`, `Chip`, `Spinner`, `Progress`, `Skeleton`
+- Navigation: `Dropdown`, `DropdownMenu`, `DropdownItem`, `Tabs`, `Tab`, `TabPanel`
+- Disclosure: `Accordion`, `AccordionItem`
+- Modular client runtime modules in `assets/runtime/serixa.js` (`Serixa.module`)
+- Docs: `docs/interactive-components.md`, `docs/runtime-modules.md`, `examples/interactive.php`
+- Playground Interactive page + Dashboard/CRUD/Settings/Profile demos
+
+### Changed
+- Client runtime version `0.9.0` with focus trap, keyboard nav, and overlay helpers
+
+### Deprecated
+- None
+
+### Fixed
+- None
+
+## [v0.8.1] — 2026-07-22
+
+### Fixed
+- **Attribute leakage on multi-node form widgets:** `Checkbox`, `Radio`, `SwitchControl`, and `SearchField` no longer copy widget `id` / `class` / custom attributes / a11y / PE event metadata onto wrappers, nested labels, or icon chrome.
+- **Duplicate IDs:** labeled checkboxes/radios/switches no longer emit the same `id` on both the control and the wrapper/label.
+- **SearchField `role` ownership:** `role="search"` stays on the wrapper once; `role="searchbox"` and event metadata stay on the `<input>` only.
+- **`HasFormControl` id ownership:** `id` is applied once via widget chrome on the interactive element (plus explicit derived ids for unlabeled fallbacks), not re-declared inside the shared form-control attribute map.
+
+### Added
+- Regression coverage in `tests/Component/FormAttributeIsolationTest.php`
+
+### Changed
+- None (public fluent APIs unchanged)
+
+### Deprecated
+- None
+
+## [v0.8.0] — 2026-07-22
+
+### Added
+- Progressive enhancement: fluent DOM events (`onClick`, `onChange`, `onInput`, `onSubmit`, `onFocus`, `onBlur`, `onKeyDown`, `onKeyUp`) → `data-serixa-on-*`
+- HTML constraint helpers on form controls: `readonly()`, `min()`, `max()`, `minLength()`, `maxLength()`, `pattern()`
+- Client runtime: `assets/runtime/serixa.js` + `Serixa\Runtime\ClientRuntime`
+- `Serixa\Event\EventRegistry` for handler metadata / future plugins
+- Docs: `docs/events.md`, `docs/progressive-enhancement.md`, `examples/events.php`
+- Playground Login / CRUD demonstrate event metadata (no JS business logic)
+
+### Changed
+- Form controls and Button/Form emit optional PE attributes; SSR behavior unchanged without JS
+
+### Deprecated
+- None
+
+### Fixed
+- None
+
+## [v0.7.0] — 2026-07-22
+
+### Added
+- Data display: `DataTable`, `Table`, `TableHead`, `TableBody`, `TableRow`, `TableCell`, `TableHeaderCell`
+- `DataTable` dual API: convenience `headers()`/`rows()` and composition `child(Table)` with `Table::head()` / `body()`
+- Application widgets: `SearchField`, `Pagination`, `PageHeader`, `Toolbar`, `EmptyState`
+- Media: `Avatar`, `Image`, `Logo`
+- Dashboard: `StatCard`, `Metric`, `ActivityList`, `ActivityItem`
+- Docs: `docs/data-display.md`, `examples/dashboard.php`, `examples/table.php`, `examples/profile.php`
+- Playground CRUD / Dashboard / Profile / Login updated to remove data-display placeholders
+
+### Changed
+- `WidgetRegistry` / `DefaultTheme` cover all v0.7.0 widgets
+- Playground Dashboard uses `Metric`; Profile uses `Logo` + `Image` + `Avatar`
+
+### Deprecated
+- None
+
+### Fixed
+- None
+
+## [v0.6.0] — 2026-07-22
+
+### Added
+- UI Foundation chrome: `AppBar`, `Sidebar`, `MainContent`, `Footer` (compose with `Scaffold`)
+- Forms: `Form`, `Label`, `Input`, `PasswordInput`, `Textarea`, `Checkbox`, `Radio`, `SwitchControl`, `Select`
+- Navigation: `Link`
+- Field messaging: `FieldGroup`, `HelperText`, `ErrorText`
+- `HasFormControl` shared concern (`name`, `id`, `disabled`, `required`, `invalid`, `describedBy`)
+- Docs: `docs/ui-foundation.md`, `examples/forms.php`, `examples/scaffold.php`
+- PHPUnit coverage for all new widgets
+
+### Changed
+- `Divider` supports `orientation()`, `spacing()`, and optional `label()` (aria-label)
+- `WidgetRegistry` / `DefaultTheme` include UI Foundation widgets
+
+### Deprecated
+- None
+
+### Fixed
+- None
+
+## [v0.5.2] — 2026-07-22
+
+### Added
+- Fluent `Padding` builder: `Padding::make()->all(4)->child(...)` / `->x()` / `->y()` / side setters
+- `Scaffold` layout widget (`appBar`, `sidebar`, `body`, `footer`)
+- Canonical PSR-4 namespace `Serixa\`
+- Docs: `docs/NAMESPACE.md`, ADR 0006
+
+### Changed
+- Composer autoload root is `Serixa\`
+- Theme maps `scaffold*` class keys for the new shell widget
+
+### Deprecated
+- Static `Padding::all()` / `Padding::x()` / … factories (use fluent `Padding::make()->…`; still work via `__callStatic`)
+
+### Fixed
+- None
+
+## [v0.5.1] — 2026-07-21
+
+### Added
+- Exception hierarchy: `SerixaException`, `InvalidArgumentException`, `ContainerException`, `PipelineException`, `RegistryException`, `PluginException`
+- Coding standards: `.editorconfig`, `.php-cs-fixer.dist.php`, `phpstan.neon.dist`
+- GitHub Actions CI (PHPUnit + PHPStan + CS dry-run)
+- Governance docs: `docs/API_STABILITY.md`, `docs/VERSIONING.md`, `docs/DEPRECATION.md`, `docs/CODING_STANDARDS.md`
+- Architecture Decision Records under `docs/adr/`
+- `@internal` markers on pipeline passes, component concerns, `HeadElement`
+
+### Changed
+- Container/pipeline/registry/plugin/theme errors use SERIXA exception types (still subclasses of SPL exceptions for BC)
+- Composer scripts: `phpstan`, `cs-check`, `cs-fix`, `qa`
+
+### Deprecated
+- None (existing Component aliases unchanged)
+
+### Fixed
+- None
+
+## [v0.5.0] — 2026-07-21
+
+### Added
+- Document engine: `Document`, `Html`, `Head`, `Body`
+- Head elements: `Title`, `Meta`, `Link`, `Script`, `Style`
+- `SeoManager` — title, description, keywords, canonical, robots, author, theme-color, favicon, Open Graph, Twitter Cards, JSON-LD placeholder
+- Asset architecture: `AssetManager`, `AssetBundle`, `AssetManifest`, `AssetResolver` (versioning, defer, preload, prefetch — no Vite)
+- `DocumentRenderer` for full HTML pages
+- `DocumentInterface`; `Renderer` detects documents vs fragments
+- Docs: `docs/document-engine.md`, `examples/document.php`, Document PHPUnit suite
+
+### Changed
+- `RendererInterface::render()` accepts `DocumentInterface|WidgetInterface|string` (additive)
+- Roadmap: Milestone 5 marked complete
+
+### Deprecated
+- None
+
+### Fixed
+- None
+
+## [v0.4.0] — 2026-07-21
+
+### Added
+- Runtime Core: `WidgetContext`, `RenderContext`
+- Service `Container` (`bind`, `singleton`, `instance`, `resolve` + constructor autowiring)
+- `WidgetRegistry` and `WidgetMetadata` with built-in widget catalog
+- Replaceable `RenderPipeline` with passes: build tree, resolve context, lifecycle, theme resolution, accessibility, render
+- `HtmlWriter` for HTML fragment assembly
+- Plugin contracts: `PluginInterface`, `WidgetPlugin`, `ThemePlugin`, `RuntimePlugin`, `PluginManager`
+- Inspector contracts and snapshots: `WidgetInspector`, `TreeInspector`, `WidgetSnapshot`, `RenderSnapshot`, `PerformanceSnapshot`
+- Performance contracts: `PerformanceProfiler`, `RenderProfiler`, `MemoryProfiler`
+- Docs: `docs/runtime-core.md`, `examples/runtime.php`, Runtime PHPUnit suite
+
+### Changed
+- `Renderer` is now a pipeline coordinator (public render APIs preserved)
+- Roadmap renumbered upcoming milestones after Runtime Core
+
+### Deprecated
+- None
+
+### Fixed
+- None
+
+## [v0.3.0] — 2026-07-21
+
+### Added
+- Widget vocabulary: `WidgetInterface`, abstract `Widget`, `WidgetCollection`, `WidgetFactory`, `WidgetVisitor`
+- Widget tree engine: `WidgetTree`, `TreeNode`, `TreeWalker`, `TreeVisitor`, `LifecycleTreeVisitor`
+- Lifecycle hooks: `beforeMount()`, `mounted()`, `beforeRender()`, `afterRender()`, `destroy()`
+- Renderer integration with tree + lifecycle (`renderWidget()`, `tree()`)
+- Memory-only state engine: `StateManager`, `StateInterface`, `WidgetState`, `StateBuilder`, `StateResolver`
+- Design tokens: `DesignToken`, `ColorToken`, `SpacingToken`, `RadiusToken`, `ShadowToken`, `TypographyToken`
+- `ThemeInterface::token()` and token composition inside `DefaultTheme`
+- Event preparation: `EventInterface`, `ClickEvent`, `HoverEvent`, `FocusEvent`, `WidgetEventDispatcher`, `NullWidgetEventDispatcher`
+- `AccessibilityBuilder` with ARIA helpers merged into widget attributes
+- Shared `AssertsOption` concern
+- Foundation PHPUnit suite and `examples/foundations.php`
+- Project docs: `ROADMAP.md`, architecture overview, expanded README
+
+### Changed
+- Renderer now builds a `WidgetTree` and runs lifecycle visitors before/after paint
+- `DefaultTheme` resolves visual styles via design tokens where applicable
+- Package identity: Composer name `serixa/framework` (PSR-4 namespace remains `Serixa\` for BC)
+
+### Deprecated
+- Prefer `Serixa\Widget\Widget` over `Serixa\Component\Component` (alias retained)
+- Prefer `WidgetInterface` over `ComponentInterface` (interface retained as extension alias)
+- Prefer `Renderer::renderWidget()`; `renderComponent()` remains as alias
+
+### Fixed
+- TreeNode static/instance naming clash (`forWidget` / `forText` factories)
+- Component BC alias now correctly implements `ComponentInterface`
+
+## [v0.2.0] — 2026-07-21
+
+### Added
+- Layout widgets: Row, Column, Center, Padding, Spacer, Expanded, SizedBox, Stack, Divider
+- Theme seam: ThemeInterface, DefaultTheme, ThemeManager
+- Button fluent aliases: `primary()`, `secondary()`, `danger()`, `ghost()`, `small()`, `large()`, `rounded()`
+- Layout documentation and tests
+
+### Changed
+- Milestone 1 widgets resolve CSS classes through ThemeManager (public APIs preserved)
+
+## [v0.1.0] — 2026-07-21
+
+### Added
+- Initial rendering engine: Component base, Renderer, Button, Card, Text, Container
+- Support utilities: HtmlEscaper, AttributeBuilder, ClassMerger
+- PHPUnit suite and basic example

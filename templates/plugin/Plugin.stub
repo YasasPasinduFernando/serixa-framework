@@ -1,0 +1,26 @@
+<?php
+
+declare(strict_types=1);
+
+namespace {{Namespace}};
+
+use Serixa\Container\Container;
+use Serixa\Plugin\PluginInterface;
+use Serixa\Registry\WidgetRegistry;
+
+/**
+ * {{ClassName}} application plugin.
+ */
+final class {{ClassName}} implements PluginInterface
+{
+    public function name(): string
+    {
+        return '{{Name}}';
+    }
+
+    public function boot(Container $container, WidgetRegistry $registry): void
+    {
+        // Register widgets, themes, or CLI commands here.
+        // \Serixa\Console\Plugin::registerCommand(new MyCommand());
+    }
+}

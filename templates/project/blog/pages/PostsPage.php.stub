@@ -1,0 +1,26 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Pages;
+
+use App\Layouts\AppLayout;
+use Serixa\Component\Column;
+use Serixa\Component\Text;
+use Serixa\Document\Document;
+
+/**
+ * Blog index page.
+ */
+final class PostsPage
+{
+    public static function document(): Document
+    {
+        $body = Column::make([
+            AppLayout::titleBar('Posts'),
+            Text::make('Latest articles from your SERIXA blog.')->tone('muted'),
+        ])->gap(3);
+
+        return Document::make()->title('Posts · {{ProjectName}}')->body($body);
+    }
+}

@@ -1,0 +1,55 @@
+{
+    "name": "serixa/framework",
+    "description": "SERIXA — a Flutter-inspired PHP UI framework. Write PHP widgets, get semantic HTML.",
+    "type": "library",
+    "license": "MIT",
+    "keywords": [
+        "serixa",
+        "php",
+        "ui",
+        "widgets",
+        "components",
+        "html",
+        "tailwind",
+        "flutter"
+    ],
+    "authors": [
+        {
+            "name": "SERIXA Contributors"
+        }
+    ],
+    "require": {
+        "php": "^8.2"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.64",
+        "phpstan/phpstan": "^2.0",
+        "phpunit/phpunit": "^11.0"
+    },
+    "bin": [
+        "bin/serixa"
+    ],
+    "autoload": {
+        "psr-4": {
+            "Serixa\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Serixa\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "phpstan": "phpstan analyse --memory-limit=512M",
+        "cs-check": "php-cs-fixer fix --dry-run --diff",
+        "cs-fix": "php-cs-fixer fix",
+        "qa": [
+            "@test",
+            "@phpstan",
+            "@cs-check"
+        ]
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

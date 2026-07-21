@@ -1,0 +1,31 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Pages;
+
+use App\Layouts\AppLayout;
+use Serixa\Component\Column;
+use Serixa\Component\Text;
+use Serixa\Document\Document;
+
+/**
+ * Home page for the {{Preset}} starter.
+ */
+final class HomePage
+{
+    public static function document(): Document
+    {
+        $body = Column::make([
+            AppLayout::titleBar('{{ProjectTitle}}'),
+            Text::make('Welcome to your SERIXA {{Preset}} application.')
+                ->tone('muted'),
+        ])->gap(3)->alignStart();
+
+        return Document::make()
+            ->title('{{ProjectTitle}}')
+            ->description('SERIXA {{Preset}} starter')
+            ->language('en')
+            ->body($body);
+    }
+}

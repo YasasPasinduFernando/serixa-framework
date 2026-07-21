@@ -1,0 +1,32 @@
+{
+    "name": "app/{{ProjectName}}",
+    "description": "{{ProjectTitle}} — SERIXA application",
+    "type": "project",
+    "require": {
+        "php": "^8.2",
+        "serixa/framework": "*@dev"
+    },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "{{FrameworkPath}}",
+            "options": {
+                "symlink": true
+            }
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\Pages\\": "pages/",
+            "App\\Components\\": "components/",
+            "App\\Layouts\\": "layouts/",
+            "App\\Themes\\": "themes/",
+            "App\\Plugins\\": "plugins/"
+        }
+    },
+    "scripts": {
+        "start": "php -S localhost:8000 -t public"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

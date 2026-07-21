@@ -1,0 +1,30 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+use Serixa\Console\Application;
+
+$autoloadCandidates = [
+    dirname(__DIR__) . '/vendor/autoload.php',           // framework/vendor
+    dirname(__DIR__, 2) . '/vendor/autoload.php',       // monorepo root vendor
+    dirname(__DIR__, 3) . '/autoload.php',              // vendor/serixa/framework → vendor/autoload.php
+];
+
+$loaded = false;
+
+foreach ($autoloadCandidates as $autoload) {
+    if (is_file($autoload)) {
+        require $autoload;
+        $loaded = true;
+        break;
+    }
+}
+
+if (! $loaded) {
+    fwrite(STDERR, "Unable to locate Composer autoloader.\n");
+    exit(1);
+}
+
+$app = new Application(frameworkRoot: dirname(__DIR__));
+exit($app->run($argv));
