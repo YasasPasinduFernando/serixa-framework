@@ -4,24 +4,23 @@ Composer package: **`serixa/framework`**
 
 PHP UI framework (SSR widgets → HTML). Namespace: `Serixa\`.
 
-This folder is the production package inside the [SERIXA monorepo](../docs/monorepo.md).
+This folder is the **runtime engine** inside the [SERIXA monorepo](../docs/monorepo.md). Scaffolding lives in [`serixa/cli`](../packages/cli/).
 
-## Install (standalone mindset)
+## Install
 
 ```bash
 composer require serixa/framework
+composer require --dev serixa/cli   # optional scaffolding
 ```
-
-In this monorepo, depend via path repository (see root / package `composer.json` files).
 
 ## Develop here
 
 ```bash
 composer install
 composer qa
-php bin/serixa version
+php examples/basic.php
 ```
 
 ## Docs
 
-Ecosystem and framework docs live in the monorepo [`docs/`](../docs/) folder (getting started, tutorials, ADRs).
+Ecosystem docs: [`docs/`](../docs/). CLI: [`docs/cli.md`](../docs/cli.md).

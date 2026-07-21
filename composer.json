@@ -26,9 +26,6 @@
         "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^11.0"
     },
-    "bin": [
-        "bin/serixa"
-    ],
     "autoload": {
         "psr-4": {
             "Serixa\\": "src/"
@@ -38,6 +35,9 @@
         "psr-4": {
             "Serixa\\Tests\\": "tests/"
         }
+    },
+    "suggest": {
+        "serixa/cli": "Official scaffolding CLI (serixa new, make:*, build, docs)"
     },
     "scripts": {
         "test": "phpunit",

@@ -1,5 +1,11 @@
 # Changelog
 
+## [v0.12.0] — 2026-07-22
+
+### Changed
+- **Breaking (packaging):** CLI moved to standalone `serixa/cli`. `framework` is runtime-only (widgets, renderer, theme, document, PE runtime).
+- Removed `bin/serixa`, `src/Console/`, and `templates/` from this package.
+- Suggested dependency: `composer require --dev serixa/cli`
 All notable changes to SERIXA are documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
