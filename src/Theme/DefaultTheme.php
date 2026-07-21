@@ -197,6 +197,7 @@ final class DefaultTheme implements ThemeInterface
             'tabs.list' => $this->tabsList($state),
             'tabs.tab' => $this->tabsTab($state),
             'tabs.panel' => $this->tabsPanel($state),
+            'icon' => $this->icon($state),
             default => throw new InvalidArgumentException(sprintf('Unknown theme component "%s".', $component)),
         };
     }
@@ -1569,6 +1570,59 @@ final class DefaultTheme implements ThemeInterface
     private function toolbarTrailing(array $state): array
     {
         return ['flex', 'items-center', 'gap-2'];
+    }
+
+    /**
+     * Icon widget (serixa/icons) — size + semantic text color for SVG currentColor.
+     *
+     * @param array<string, scalar|bool|null> $state
+     * @return list<string>
+     */
+    private function icon(array $state): array
+    {
+        $size = (string) ($state['size'] ?? 'md');
+        $color = (string) ($state['color'] ?? 'inherit');
+
+        $sizes = [
+            'xs' => ['w-3', 'h-3'],
+            'sm' => ['w-4', 'h-4'],
+            'md' => ['w-5', 'h-5'],
+            'lg' => ['w-6', 'h-6'],
+            'xl' => ['w-8', 'h-8'],
+            '2xl' => ['w-10', 'h-10'],
+        ];
+
+        $colors = [
+            'primary' => ['text-sky-600'],
+            'secondary' => ['text-slate-600'],
+            'success' => ['text-emerald-600'],
+            'danger' => ['text-red-600'],
+            'warning' => ['text-amber-600'],
+            'muted' => $this->token(ColorToken::textMuted()),
+            'inherit' => ['text-inherit'],
+        ];
+
+        if (! isset($sizes[$size])) {
+            throw new InvalidArgumentException(sprintf(
+                'Invalid icon theme size "%s". Allowed: %s.',
+                $size,
+                implode(', ', array_keys($sizes)),
+            ));
+        }
+
+        if (! isset($colors[$color])) {
+            throw new InvalidArgumentException(sprintf(
+                'Invalid icon theme color "%s". Allowed: %s.',
+                $color,
+                implode(', ', array_keys($colors)),
+            ));
+        }
+
+        return $this->classMerger->merge(
+            ['inline-block', 'shrink-0', 'align-middle'],
+            $sizes[$size],
+            $colors[$color],
+        );
     }
 
     /**

@@ -19,6 +19,7 @@ Monorepo ecosystem layout. **No public API changes.**
 - Package skeletons: icons, charts, calendar, admin, auth-ui, devtools
 - Starter skeletons: blog, admin, crm, ecommerce, portfolio, docs
 - CI jobs for framework, package skeletons, starter skeletons, and root meta QA
+- Additive `DefaultTheme` `icon` class map for `serixa/icons` (sizes + semantic colors)
 
 ## [v0.11.0] — 2026-07-22
 
