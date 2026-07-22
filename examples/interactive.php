@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
+use Serixa\Assets\StyleSheet;
 use Serixa\Component\Accordion;
 use Serixa\Component\AccordionItem;
 use Serixa\Component\Badge;
@@ -85,7 +86,7 @@ $document = Document::make()
     ->title('Interactive · SERIXA')
     ->body($page);
 
-$document->assets()->js('https://cdn.tailwindcss.com');
+StyleSheet::register($document->assets());
 ClientRuntime::register($document->assets());
 
 echo (new Renderer())->render($document), PHP_EOL;

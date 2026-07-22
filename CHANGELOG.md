@@ -5,6 +5,25 @@ All notable changes to SERIXA are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [v1.0.0-rc3] — 2026-07-22
+
+Offline CSS build pipeline. Removes Tailwind Play CDN from DocumentFactory and app layouts.
+
+### Added
+- `Serixa\Assets\StyleSheet` — offline merge of `framework/assets/css/serixa.css` + app CSS ? `public/assets/app.css`
+- Committed base stylesheet `framework/assets/css/serixa.css` (no runtime compiler)
+- Maintainer toolchain under `tools/css/` (Tailwind CLI used only to regenerate the base CSS)
+- `docs/assets.md` — asset pipeline documentation
+- `serixa build` writes `build/manifest.json`, `public/assets/manifest.json`, and `build/report.json`
+
+### Changed
+- `serixa build` compiles CSS, copies `serixa.js`, and prints a build report
+- Website, starters, playground, validation apps, and examples register `/assets/app.css` via `StyleSheet::register()`
+- Docs tutorials no longer show CDN script tags
+
+### Removed
+- Tailwind Play CDN (`cdn.tailwindcss.com`) and local Play CDN vendor script from the docs website
+
 ## [v1.0.0-rc1] — 2026-07-22
 
 Ecosystem release candidate. Framework runtime API is unchanged from v0.12.0; this tag marks the first validated SERIXA 1.0 release candidate across the monorepo.

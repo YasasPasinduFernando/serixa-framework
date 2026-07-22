@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
+use Serixa\Assets\StyleSheet;
 use Serixa\Component\Button;
 use Serixa\Component\Column;
 use Serixa\Component\DataTable;
@@ -67,6 +68,6 @@ $page = Column::make([
 ])->gap(4);
 
 $document = Document::make()->title('Table · SERIXA')->body($page);
-$document->assets()->js('https://cdn.tailwindcss.com');
+StyleSheet::register($document->assets());
 
 echo (new Renderer())->render($document), PHP_EOL;
