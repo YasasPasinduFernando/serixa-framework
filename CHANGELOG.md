@@ -1,15 +1,34 @@
 # Changelog
 
+All notable changes to SERIXA are documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/),
+and this project adheres to [Semantic Versioning](https://semver.org/).
+
+## [v1.0.0-rc1] — 2026-07-22
+
+Ecosystem release candidate. Framework runtime API is unchanged from v0.12.0; this tag marks the first validated SERIXA 1.0 release candidate across the monorepo.
+
+### Ecosystem (v0.1.0 packages)
+- `serixa/icons`, `serixa/admin`, `serixa/forms`, `serixa/auth-ui`, `serixa/charts`, `serixa/calendar`, `serixa/devtools`, `serixa/cli`
+- Starter kits: `serixa/starter-blog`, `serixa/starter-admin` (full); `serixa/starter-crm`, `serixa/starter-ecommerce`, `serixa/starter-portfolio`, `serixa/starter-docs` (scaffolds)
+
+### Validation
+- Framework QA: 114 tests, PHPStan clean, CS-Fixer clean
+- Package QA: all eight official packages pass `composer qa`
+- Playground render smoke: 6/6 pages
+- Starter smoke: blog (12 routes), admin (16 routes)
+- Validation apps: blog, admin-dashboard, crm — all pages render
+
+### Fixed
+- Playground `composer.lock` path-repository junction now targets `framework/` (was repo root)
+
 ## [v0.12.0] — 2026-07-22
 
 ### Changed
 - **Breaking (packaging):** CLI moved to standalone `serixa/cli`. `framework` is runtime-only (widgets, renderer, theme, document, PE runtime).
 - Removed `bin/serixa`, `src/Console/`, and `templates/` from this package.
 - Suggested dependency: `composer require --dev serixa/cli`
-All notable changes to SERIXA are documented in this file.
-
-The format is based on [Keep a Changelog](https://keepachangelog.com/),
-and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [v0.11.1] â€” 2026-07-22
 
