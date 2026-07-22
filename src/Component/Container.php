@@ -8,7 +8,7 @@ use Serixa\Component\Concerns\AssertsOption;
 use Serixa\Component\Concerns\HasChildren;
 use Serixa\Component\Concerns\HasFill;
 use Serixa\Component\Concerns\ResolvesTheme;
-use Serixa\Contracts\ComponentInterface;
+use Serixa\Contracts\WidgetInterface;
 
 /**
  * Layout wrapper with responsive max-width and padding. Owns structure, not content.
@@ -30,14 +30,14 @@ final class Container extends Component
 
     private string $padding = 'md';
 
-    private function __construct(ComponentInterface|string ...$children)
+    private function __construct(WidgetInterface|string ...$children)
     {
         parent::__construct();
         $this->fill = true;
         $this->setChildren(array_values($children));
     }
 
-    public static function make(ComponentInterface|string ...$children): self
+    public static function make(WidgetInterface|string ...$children): self
     {
         return new self(...$children);
     }

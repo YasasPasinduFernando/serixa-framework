@@ -7,7 +7,7 @@ namespace Serixa\Component;
 use Serixa\Component\Concerns\AssertsOption;
 use Serixa\Component\Concerns\HasChildren;
 use Serixa\Component\Concerns\ResolvesTheme;
-use Serixa\Contracts\ComponentInterface;
+use Serixa\Contracts\WidgetInterface;
 
 /**
  * Content card with optional title. Renders as a semantic article.
@@ -24,13 +24,13 @@ final class Card extends Component
 
     private string $padding = 'md';
 
-    private function __construct(ComponentInterface|string ...$children)
+    private function __construct(WidgetInterface|string ...$children)
     {
         parent::__construct();
         $this->setChildren(array_values($children));
     }
 
-    public static function make(ComponentInterface|string ...$children): self
+    public static function make(WidgetInterface|string ...$children): self
     {
         return new self(...$children);
     }
