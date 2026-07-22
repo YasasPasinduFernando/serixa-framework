@@ -12,14 +12,34 @@ final class ColorToken extends DesignToken
         return new self('color.primary');
     }
 
+    public static function primaryHover(): self
+    {
+        return new self('color.primary.hover');
+    }
+
     public static function secondary(): self
     {
         return new self('color.secondary');
     }
 
+    public static function secondaryHover(): self
+    {
+        return new self('color.secondary.hover');
+    }
+
     public static function danger(): self
     {
         return new self('color.danger');
+    }
+
+    public static function dangerHover(): self
+    {
+        return new self('color.danger.hover');
+    }
+
+    public static function onPrimary(): self
+    {
+        return new self('color.onPrimary');
     }
 
     public static function surface(): self

@@ -260,8 +260,12 @@ final class DefaultTheme implements ThemeInterface
     {
         return $this->tokenMapCache ??= [
             ColorToken::primary()->name() => ['bg-sky-600', 'hover:bg-sky-700'],
+            ColorToken::primaryHover()->name() => ['bg-sky-700', 'hover:bg-sky-800'],
             ColorToken::secondary()->name() => ['bg-slate-100', 'hover:bg-slate-200'],
+            ColorToken::secondaryHover()->name() => ['bg-slate-200', 'hover:bg-slate-300'],
             ColorToken::danger()->name() => ['bg-red-600', 'hover:bg-red-700'],
+            ColorToken::dangerHover()->name() => ['bg-red-700', 'hover:bg-red-800'],
+            ColorToken::onPrimary()->name() => ['text-white'],
             ColorToken::surface()->name() => ['bg-white', 'dark:bg-slate-900'],
             ColorToken::background()->name() => ['bg-slate-50', 'dark:bg-slate-950'],
             ColorToken::textPrimary()->name() => ['text-slate-900', 'dark:text-slate-100'],
