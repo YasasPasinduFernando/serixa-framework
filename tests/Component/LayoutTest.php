@@ -8,6 +8,7 @@ use PHPUnit\Framework\TestCase;
 use Serixa\Component\Button;
 use Serixa\Component\Center;
 use Serixa\Component\Column;
+use Serixa\Component\Container;
 use Serixa\Component\Divider;
 use Serixa\Component\Expanded;
 use Serixa\Component\Padding;
@@ -147,5 +148,40 @@ final class LayoutTest extends TestCase
         $this->assertStringContainsString('justify-center', Row::make()->justifyCenter()->render());
         $this->assertStringContainsString('justify-end', Row::make()->justifyEnd()->render());
         $this->assertStringContainsString('justify-around', Row::make()->spaceAround()->render());
+    }
+
+    public function testGenericLayoutsDoNotForceFullWidthByDefault(): void
+    {
+        $column = Column::make(Text::make('A'))->render();
+        $row = Row::make(Text::make('A'))->render();
+        $center = Center::make(Text::make('A'))->render();
+        $stack = Stack::make(Text::make('A'))->render();
+
+        $this->assertStringNotContainsString('w-full', $column);
+        $this->assertStringNotContainsString('w-full', $row);
+        $this->assertStringNotContainsString('w-full', $center);
+        $this->assertStringNotContainsString('w-full', $stack);
+    }
+
+    public function testFillOptsIntoFullWidth(): void
+    {
+        $this->assertStringContainsString('w-full', Column::make()->fill()->render());
+        $this->assertStringContainsString('w-full', Row::make()->fill()->render());
+        $this->assertStringContainsString('w-full', Center::make()->fill()->render());
+        $this->assertStringContainsString('w-full', Stack::make()->fill()->render());
+    }
+
+    public function testContainerFillsByDefaultAndCanOptOut(): void
+    {
+        $this->assertStringContainsString('w-full', Container::make()->render());
+        $this->assertStringNotContainsString('w-full', Container::make()->fill(false)->render());
+    }
+
+    public function testConsumerWidthClassOverridesThemeFill(): void
+    {
+        $html = Column::make()->fill()->class('w-56')->render();
+
+        $this->assertStringContainsString('w-56', $html);
+        $this->assertStringNotContainsString('w-full', $html);
     }
 }

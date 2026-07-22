@@ -57,4 +57,18 @@ final class SupportTest extends TestCase
         );
         $this->assertSame('a b c', $merger->toString(['a', 'b'], ['b', 'c']));
     }
+
+    public function testClassMergerResolvesWidthConflictsLastWins(): void
+    {
+        $merger = new ClassMerger();
+
+        $this->assertSame(
+            ['flex', 'flex-col', 'w-56'],
+            $merger->merge(['flex', 'flex-col', 'w-full'], ['w-56']),
+        );
+        $this->assertSame(
+            ['mx-auto', 'w-auto', 'max-w-full'],
+            $merger->merge(['mx-auto', 'w-full', 'max-w-screen-xl'], ['max-w-full'], ['w-auto']),
+        );
+    }
 }

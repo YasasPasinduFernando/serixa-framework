@@ -5,26 +5,29 @@ All notable changes to SERIXA are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [v1.0.0-rc3] � 2026-07-22
+## [v1.0.0-rc3] — 2026-07-22
 
 Offline CSS build pipeline. Removes Tailwind Play CDN from DocumentFactory and app layouts.
 
 ### Added
-- `Serixa\Assets\StyleSheet` � offline merge of `framework/assets/css/serixa.css` + app CSS ? `public/assets/app.css`
+- `Serixa\Assets\StyleSheet` — offline merge of `framework/assets/css/serixa.css` + app CSS ? `public/assets/app.css`
 - Committed base stylesheet `framework/assets/css/serixa.css` (no runtime compiler)
 - Maintainer toolchain under `tools/css/` (Tailwind CLI used only to regenerate the base CSS)
-- `docs/assets.md` � asset pipeline documentation
+- `docs/assets.md` — asset pipeline documentation
 - `serixa build` writes `build/manifest.json`, `public/assets/manifest.json`, and `build/report.json`
+- Layout `fill()` API on Row / Column / Center / Stack / Container for explicit width ownership
+- `ClassMerger` resolves conflicting Tailwind utilities (later token wins)
 
 ### Changed
 - `serixa build` compiles CSS, copies `serixa.js`, and prints a build report
 - Website, starters, playground, validation apps, and examples register `/assets/app.css` via `StyleSheet::register()`
 - Docs tutorials no longer show CDN script tags
+- Generic Row / Column / Center / Stack no longer apply w-full by default (specialized layouts own sizing; Container still fills by default)
 
 ### Removed
 - Tailwind Play CDN (`cdn.tailwindcss.com`) and local Play CDN vendor script from the docs website
 
-## [v1.0.0-rc1] � 2026-07-22
+## [v1.0.0-rc1] — 2026-07-22
 
 Ecosystem release candidate. Framework runtime API is unchanged from v0.12.0; this tag marks the first validated SERIXA 1.0 release candidate across the monorepo.
 
@@ -37,19 +40,19 @@ Ecosystem release candidate. Framework runtime API is unchanged from v0.12.0; th
 - Package QA: all eight official packages pass `composer qa`
 - Playground render smoke: 6/6 pages
 - Starter smoke: blog (12 routes), admin (16 routes)
-- Validation apps: blog, admin-dashboard, crm � all pages render
+- Validation apps: blog, admin-dashboard, crm — all pages render
 
 ### Fixed
 - Playground `composer.lock` path-repository junction now targets `framework/` (was repo root)
 
-## [v0.12.0] � 2026-07-22
+## [v0.12.0] — 2026-07-22
 
 ### Changed
 - **Breaking (packaging):** CLI moved to standalone `serixa/cli`. `framework` is runtime-only (widgets, renderer, theme, document, PE runtime).
 - Removed `bin/serixa`, `src/Console/`, and `templates/` from this package.
 - Suggested dependency: `composer require --dev serixa/cli`
 
-## [v0.11.1] — 2026-07-22
+## [v0.11.1] â€” 2026-07-22
 
 Monorepo ecosystem layout. **No public API changes.**
 
@@ -59,13 +62,13 @@ Monorepo ecosystem layout. **No public API changes.**
 - CLI reports `0.11.1`; runtime script version string aligned
 
 ### Added
-- `docs/monorepo.md` — why monorepo, path repos, package lifecycle, split strategy
+- `docs/monorepo.md` â€” why monorepo, path repos, package lifecycle, split strategy
 - Package skeletons: icons, charts, calendar, admin, auth-ui, devtools
 - Starter skeletons: blog, admin, crm, ecommerce, portfolio, docs
 - CI jobs for framework, package skeletons, starter skeletons, and root meta QA
 - Additive `DefaultTheme` `icon` class map for `serixa/icons` (sizes + semantic colors)
 
-## [v0.11.0] — 2026-07-22
+## [v0.11.0] â€” 2026-07-22
 
 Polish release following the pre-1.0 validation pass (`validation/REPORT.md`): performance, DX, and beginner documentation. No breaking changes.
 
@@ -82,10 +85,10 @@ Polish release following the pre-1.0 validation pass (`validation/REPORT.md`): p
 - Playground polish: minor demo/page cleanups following the validation pass
 
 ### Changed
-- `DefaultTheme::classes()` now memoizes resolved class lists per component+state key; `token()` lookups are cached — addresses the ~0.8 ms/lookup cost measured in `docs/performance.md` (see `docs/performance-v011.md` for before/after tables)
+- `DefaultTheme::classes()` now memoizes resolved class lists per component+state key; `token()` lookups are cached â€” addresses the ~0.8 ms/lookup cost measured in `docs/performance.md` (see `docs/performance-v011.md` for before/after tables)
 - `WidgetRegistry::defaultMetadata()` memoizes the built-in metadata list
 - `Serixa\Widget\Widget` shares one `HtmlEscaper`, `AttributeBag`, and `ClassMerger` instance across widget instances by default instead of constructing new ones per widget
-- Client runtime (`assets/runtime/serixa.js`) only mounts an interactive module (modal, dropdown, tabs, accordion, toast, …) when a matching marker is present in the DOM subtree being booted, instead of unconditionally mounting every module
+- Client runtime (`assets/runtime/serixa.js`) only mounts an interactive module (modal, dropdown, tabs, accordion, toast, â€¦) when a matching marker is present in the DOM subtree being booted, instead of unconditionally mounting every module
 - Validation error messages from layout/theme widgets (`Padding`, `Row`, `Column`, `DefaultTheme`) and pipeline passes now include actionable context
 - `docs/cli.md` updated for `v0.11.0` and cross-linked to the new beginner docs
 - `README.md`: new "Beginner path" section linking `getting-started.md` / `first-blog.md` / `first-dashboard.md`, expanded documentation index
@@ -99,9 +102,9 @@ Polish release following the pre-1.0 validation pass (`validation/REPORT.md`): p
 - None
 
 ### Performance
-- Theme 3 000 class lookups: ~2 287 ms → ~43 ms (~53×) — see `docs/performance-v011.md`
+- Theme 3â€¯000 class lookups: ~2â€¯287 ms â†’ ~43 ms (~53Ã—) â€” see `docs/performance-v011.md`
 
-## [v0.10.0] — 2026-07-22
+## [v0.10.0] â€” 2026-07-22
 
 ### Added
 - SERIXA CLI (`bin/serixa`) with `Application`, `CommandRegistry`, and pluggable commands
@@ -120,7 +123,7 @@ Polish release following the pre-1.0 validation pass (`validation/REPORT.md`): p
 ### Fixed
 - None
 
-## [v0.9.0] — 2026-07-22
+## [v0.9.0] â€” 2026-07-22
 
 ### Added
 - Interactive overlays: `Modal`, `Drawer`, `Popover`, `Tooltip`
@@ -140,7 +143,7 @@ Polish release following the pre-1.0 validation pass (`validation/REPORT.md`): p
 ### Fixed
 - None
 
-## [v0.8.1] — 2026-07-22
+## [v0.8.1] â€” 2026-07-22
 
 ### Fixed
 - **Attribute leakage on multi-node form widgets:** `Checkbox`, `Radio`, `SwitchControl`, and `SearchField` no longer copy widget `id` / `class` / custom attributes / a11y / PE event metadata onto wrappers, nested labels, or icon chrome.
@@ -157,10 +160,10 @@ Polish release following the pre-1.0 validation pass (`validation/REPORT.md`): p
 ### Deprecated
 - None
 
-## [v0.8.0] — 2026-07-22
+## [v0.8.0] â€” 2026-07-22
 
 ### Added
-- Progressive enhancement: fluent DOM events (`onClick`, `onChange`, `onInput`, `onSubmit`, `onFocus`, `onBlur`, `onKeyDown`, `onKeyUp`) → `data-serixa-on-*`
+- Progressive enhancement: fluent DOM events (`onClick`, `onChange`, `onInput`, `onSubmit`, `onFocus`, `onBlur`, `onKeyDown`, `onKeyUp`) â†’ `data-serixa-on-*`
 - HTML constraint helpers on form controls: `readonly()`, `min()`, `max()`, `minLength()`, `maxLength()`, `pattern()`
 - Client runtime: `assets/runtime/serixa.js` + `Serixa\Runtime\ClientRuntime`
 - `Serixa\Event\EventRegistry` for handler metadata / future plugins
@@ -176,7 +179,7 @@ Polish release following the pre-1.0 validation pass (`validation/REPORT.md`): p
 ### Fixed
 - None
 
-## [v0.7.0] — 2026-07-22
+## [v0.7.0] â€” 2026-07-22
 
 ### Added
 - Data display: `DataTable`, `Table`, `TableHead`, `TableBody`, `TableRow`, `TableCell`, `TableHeaderCell`
@@ -197,7 +200,7 @@ Polish release following the pre-1.0 validation pass (`validation/REPORT.md`): p
 ### Fixed
 - None
 
-## [v0.6.0] — 2026-07-22
+## [v0.6.0] â€” 2026-07-22
 
 ### Added
 - UI Foundation chrome: `AppBar`, `Sidebar`, `MainContent`, `Footer` (compose with `Scaffold`)
@@ -218,7 +221,7 @@ Polish release following the pre-1.0 validation pass (`validation/REPORT.md`): p
 ### Fixed
 - None
 
-## [v0.5.2] — 2026-07-22
+## [v0.5.2] â€” 2026-07-22
 
 ### Added
 - Fluent `Padding` builder: `Padding::make()->all(4)->child(...)` / `->x()` / `->y()` / side setters
@@ -231,12 +234,12 @@ Polish release following the pre-1.0 validation pass (`validation/REPORT.md`): p
 - Theme maps `scaffold*` class keys for the new shell widget
 
 ### Deprecated
-- Static `Padding::all()` / `Padding::x()` / … factories (use fluent `Padding::make()->…`; still work via `__callStatic`)
+- Static `Padding::all()` / `Padding::x()` / â€¦ factories (use fluent `Padding::make()->â€¦`; still work via `__callStatic`)
 
 ### Fixed
 - None
 
-## [v0.5.1] — 2026-07-21
+## [v0.5.1] â€” 2026-07-21
 
 ### Added
 - Exception hierarchy: `SerixaException`, `InvalidArgumentException`, `ContainerException`, `PipelineException`, `RegistryException`, `PluginException`
@@ -256,13 +259,13 @@ Polish release following the pre-1.0 validation pass (`validation/REPORT.md`): p
 ### Fixed
 - None
 
-## [v0.5.0] — 2026-07-21
+## [v0.5.0] â€” 2026-07-21
 
 ### Added
 - Document engine: `Document`, `Html`, `Head`, `Body`
 - Head elements: `Title`, `Meta`, `Link`, `Script`, `Style`
-- `SeoManager` — title, description, keywords, canonical, robots, author, theme-color, favicon, Open Graph, Twitter Cards, JSON-LD placeholder
-- Asset architecture: `AssetManager`, `AssetBundle`, `AssetManifest`, `AssetResolver` (versioning, defer, preload, prefetch — no Vite)
+- `SeoManager` â€” title, description, keywords, canonical, robots, author, theme-color, favicon, Open Graph, Twitter Cards, JSON-LD placeholder
+- Asset architecture: `AssetManager`, `AssetBundle`, `AssetManifest`, `AssetResolver` (versioning, defer, preload, prefetch â€” no Vite)
 - `DocumentRenderer` for full HTML pages
 - `DocumentInterface`; `Renderer` detects documents vs fragments
 - Docs: `docs/document-engine.md`, `examples/document.php`, Document PHPUnit suite
@@ -277,7 +280,7 @@ Polish release following the pre-1.0 validation pass (`validation/REPORT.md`): p
 ### Fixed
 - None
 
-## [v0.4.0] — 2026-07-21
+## [v0.4.0] â€” 2026-07-21
 
 ### Added
 - Runtime Core: `WidgetContext`, `RenderContext`
@@ -300,7 +303,7 @@ Polish release following the pre-1.0 validation pass (`validation/REPORT.md`): p
 ### Fixed
 - None
 
-## [v0.3.0] — 2026-07-21
+## [v0.3.0] â€” 2026-07-21
 
 ### Added
 - Widget vocabulary: `WidgetInterface`, abstract `Widget`, `WidgetCollection`, `WidgetFactory`, `WidgetVisitor`
@@ -330,7 +333,7 @@ Polish release following the pre-1.0 validation pass (`validation/REPORT.md`): p
 - TreeNode static/instance naming clash (`forWidget` / `forText` factories)
 - Component BC alias now correctly implements `ComponentInterface`
 
-## [v0.2.0] — 2026-07-21
+## [v0.2.0] â€” 2026-07-21
 
 ### Added
 - Layout widgets: Row, Column, Center, Padding, Spacer, Expanded, SizedBox, Stack, Divider
@@ -341,7 +344,7 @@ Polish release following the pre-1.0 validation pass (`validation/REPORT.md`): p
 ### Changed
 - Milestone 1 widgets resolve CSS classes through ThemeManager (public APIs preserved)
 
-## [v0.1.0] — 2026-07-21
+## [v0.1.0] â€” 2026-07-21
 
 ### Added
 - Initial rendering engine: Component base, Renderer, Button, Card, Text, Container

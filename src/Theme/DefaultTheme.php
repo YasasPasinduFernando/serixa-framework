@@ -455,7 +455,9 @@ final class DefaultTheme implements ThemeInterface
         }
 
         return $this->classMerger->merge(
-            ['mx-auto', 'w-full', $maxWidths[$maxWidth]],
+            ['mx-auto', $maxWidths[$maxWidth]],
+            // Default fill when state omits the key (theme-only callers).
+            (! array_key_exists('fill', $state) || ! empty($state['fill'])) ? ['w-full'] : [],
             $paddings[$padding],
         );
     }
@@ -493,7 +495,11 @@ final class DefaultTheme implements ThemeInterface
             ));
         }
 
-        $classes = ['flex', 'flex-row', 'w-full', $justifies[$justify], $aligns[$align]];
+        $classes = ['flex', 'flex-row', $justifies[$justify], $aligns[$align]];
+
+        if (! empty($state['fill'])) {
+            $classes[] = 'w-full';
+        }
 
         if ($gap !== null) {
             $classes[] = $this->spacingClass('gap', $gap);
@@ -526,7 +532,11 @@ final class DefaultTheme implements ThemeInterface
             ));
         }
 
-        $classes = ['flex', 'flex-col', 'w-full', $aligns[$align]];
+        $classes = ['flex', 'flex-col', $aligns[$align]];
+
+        if (! empty($state['fill'])) {
+            $classes[] = 'w-full';
+        }
 
         if ($gap !== null) {
             $classes[] = $this->spacingClass('gap', $gap);
@@ -541,12 +551,17 @@ final class DefaultTheme implements ThemeInterface
      */
     private function center(array $state): array
     {
-        return [
+        $classes = [
             'flex',
-            'w-full',
             'items-center',
             'justify-center',
         ];
+
+        if (! empty($state['fill'])) {
+            $classes[] = 'w-full';
+        }
+
+        return $classes;
     }
 
     /**
@@ -609,7 +624,13 @@ final class DefaultTheme implements ThemeInterface
      */
     private function stack(array $state): array
     {
-        return ['relative', 'w-full'];
+        $classes = ['relative'];
+
+        if (! empty($state['fill'])) {
+            $classes[] = 'w-full';
+        }
+
+        return $classes;
     }
 
     /**

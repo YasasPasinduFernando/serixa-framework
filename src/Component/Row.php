@@ -5,17 +5,22 @@ declare(strict_types=1);
 namespace Serixa\Component;
 
 use Serixa\Component\Concerns\HasChildren;
+use Serixa\Component\Concerns\HasFill;
 use Serixa\Component\Concerns\ResolvesTheme;
 use Serixa\Contracts\WidgetInterface;
 
 /**
  * Horizontal flex layout (Flutter Row).
  *
+ * Does not claim width by default — call fill() for a full-bleed row, or place
+ * the row in normal block flow where the box already stretches.
+ *
  * @example Row::make([Button::make('A'), Spacer::make(), Button::make('B')])->spaceBetween()
  */
 final class Row extends Component
 {
     use HasChildren;
+    use HasFill;
     use ResolvesTheme;
 
     private string $justify = 'start';
@@ -117,6 +122,7 @@ final class Row extends Component
                 'justify' => $this->justify,
                 'align' => $this->align,
                 'gap' => $this->gap,
+                'fill' => $this->fillState(),
             ]),
         );
 

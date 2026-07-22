@@ -6,11 +6,16 @@ namespace Serixa\Component;
 
 use Serixa\Component\Concerns\AssertsOption;
 use Serixa\Component\Concerns\HasChildren;
+use Serixa\Component\Concerns\HasFill;
 use Serixa\Component\Concerns\ResolvesTheme;
 use Serixa\Contracts\ComponentInterface;
 
 /**
  * Layout wrapper with responsive max-width and padding. Owns structure, not content.
+ *
+ * Fills available width by default so max-width + mx-auto centering works.
+ * Call fill(false) when used as a flex child that must not claim 100% width —
+ * prefer Expanded around the fluid pane instead.
  *
  * @example Container::make()->child(Text::make('Hello'))->maxWidth('lg')
  */
@@ -18,6 +23,7 @@ final class Container extends Component
 {
     use AssertsOption;
     use HasChildren;
+    use HasFill;
     use ResolvesTheme;
 
     private string $maxWidth = 'lg';
@@ -27,6 +33,7 @@ final class Container extends Component
     private function __construct(ComponentInterface|string ...$children)
     {
         parent::__construct();
+        $this->fill = true;
         $this->setChildren(array_values($children));
     }
 
@@ -57,6 +64,7 @@ final class Container extends Component
             $this->theme()->classes('container', [
                 'maxWidth' => $this->maxWidth,
                 'padding' => $this->padding,
+                'fill' => $this->fillState(),
             ]),
         );
 

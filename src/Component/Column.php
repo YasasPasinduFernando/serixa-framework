@@ -5,17 +5,22 @@ declare(strict_types=1);
 namespace Serixa\Component;
 
 use Serixa\Component\Concerns\HasChildren;
+use Serixa\Component\Concerns\HasFill;
 use Serixa\Component\Concerns\ResolvesTheme;
 use Serixa\Contracts\WidgetInterface;
 
 /**
  * Vertical flex layout (Flutter Column).
  *
+ * Does not claim width by default — use fill() only when needed, or Expanded
+ * inside a Row when the column should take remaining horizontal space.
+ *
  * @example Column::make([Text::make('A'), SizedBox::height(8), Text::make('B')])->gap(4)
  */
 final class Column extends Component
 {
     use HasChildren;
+    use HasFill;
     use ResolvesTheme;
 
     private string $align = 'stretch';
@@ -79,6 +84,7 @@ final class Column extends Component
             $this->theme()->classes('column', [
                 'align' => $this->align,
                 'gap' => $this->gap,
+                'fill' => $this->fillState(),
             ]),
         );
 

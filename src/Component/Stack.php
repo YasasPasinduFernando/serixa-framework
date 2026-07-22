@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Serixa\Component;
 
 use Serixa\Component\Concerns\HasChildren;
+use Serixa\Component\Concerns\HasFill;
 use Serixa\Component\Concerns\ResolvesTheme;
 use Serixa\Contracts\WidgetInterface;
 
@@ -13,10 +14,13 @@ use Serixa\Contracts\WidgetInterface;
  *
  * v1 paints children in DOM order inside a relative container.
  * Future: absolute Positioned children without changing this public API.
+ *
+ * Does not claim width by default — call fill() for a full-bleed stack.
  */
 final class Stack extends Component
 {
     use HasChildren;
+    use HasFill;
     use ResolvesTheme;
 
     private function __construct()
@@ -45,7 +49,9 @@ final class Stack extends Component
 
     public function render(): string
     {
-        $attrs = $this->buildAttributeString($this->theme()->classes('stack'));
+        $attrs = $this->buildAttributeString($this->theme()->classes('stack', [
+            'fill' => $this->fillState(),
+        ]));
 
         return sprintf('<div%s>%s</div>', $attrs, $this->renderChildren($this->getChildren()));
     }
