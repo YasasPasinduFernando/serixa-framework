@@ -70,5 +70,21 @@ final class SupportTest extends TestCase
             ['mx-auto', 'w-auto', 'max-w-full'],
             $merger->merge(['mx-auto', 'w-full', 'max-w-screen-xl'], ['max-w-full'], ['w-auto']),
         );
+        $this->assertSame(
+            ['flex-none'],
+            $merger->merge(['flex-1'], ['flex-none']),
+        );
+        $this->assertSame(
+            ['min-w-full'],
+            $merger->merge(['min-w-0'], ['min-w-full']),
+        );
+        $this->assertSame(
+            ['p-2', 'sm:p-8'],
+            $merger->merge(['p-4', 'sm:p-6'], ['p-2', 'sm:p-8']),
+        );
+        $this->assertSame(
+            ['bg-white', 'dark:bg-slate-900'],
+            $merger->merge(['bg-slate-50', 'dark:bg-slate-800'], ['bg-white', 'dark:bg-slate-900']),
+        );
     }
 }

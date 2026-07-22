@@ -122,7 +122,7 @@ final class Row extends Component
                 'justify' => $this->justify,
                 'align' => $this->align,
                 'gap' => $this->gap,
-                'fill' => $this->fillState(),
+                'fill' => $this->isFill(),
             ]),
         );
 

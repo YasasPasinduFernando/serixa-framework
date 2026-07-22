@@ -84,7 +84,7 @@ final class Column extends Component
             $this->theme()->classes('column', [
                 'align' => $this->align,
                 'gap' => $this->gap,
-                'fill' => $this->fillState(),
+                'fill' => $this->isFill(),
             ]),
         );
 

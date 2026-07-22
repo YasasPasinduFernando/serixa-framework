@@ -64,7 +64,7 @@ final class Container extends Component
             $this->theme()->classes('container', [
                 'maxWidth' => $this->maxWidth,
                 'padding' => $this->padding,
-                'fill' => $this->fillState(),
+                'fill' => $this->isFill(),
             ]),
         );
 

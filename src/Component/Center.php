@@ -40,7 +40,7 @@ final class Center extends Component
     public function render(): string
     {
         $attrs = $this->buildAttributeString($this->theme()->classes('center', [
-            'fill' => $this->fillState(),
+            'fill' => $this->isFill(),
         ]));
 
         return sprintf('<div%s>%s</div>', $attrs, $this->renderChildren($this->getChildren()));

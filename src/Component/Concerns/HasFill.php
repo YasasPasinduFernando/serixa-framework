@@ -13,21 +13,21 @@ namespace Serixa\Component\Concerns;
  */
 trait HasFill
 {
-    private bool $fill = false;
+    protected bool $fill = false;
 
     /**
      * Stretch to the parent's content box width (`w-full`).
      *
      * Prefer Expanded inside a Row when the child should claim remaining space.
      */
-    public function fill(bool $fill = true): static
+    public function fill(bool $enabled = true): static
     {
-        $this->fill = $fill;
+        $this->fill = $enabled;
 
         return $this;
     }
 
-    protected function fillState(): bool
+    public function isFill(): bool
     {
         return $this->fill;
     }

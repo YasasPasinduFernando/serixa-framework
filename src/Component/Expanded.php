@@ -8,7 +8,10 @@ use Serixa\Component\Concerns\ResolvesTheme;
 use Serixa\Contracts\WidgetInterface;
 
 /**
- * Flex-grow wrapper around a single child (Flutter Expanded).
+ * Flex child that claims remaining space in a Row or Column (Flutter Expanded).
+ *
+ * Renders `flex-1 min-w-0 min-h-0` — prefer this over `w-full` for fluid panes
+ * beside fixed rails (docs sidebar, admin nav, etc.).
  */
 final class Expanded extends Component
 {

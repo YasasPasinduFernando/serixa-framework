@@ -165,7 +165,9 @@ final class LayoutTest extends TestCase
 
     public function testFillOptsIntoFullWidth(): void
     {
-        $this->assertStringContainsString('w-full', Column::make()->fill()->render());
+        $filled = Column::make()->fill();
+        $this->assertTrue($filled->isFill());
+        $this->assertStringContainsString('w-full', $filled->render());
         $this->assertStringContainsString('w-full', Row::make()->fill()->render());
         $this->assertStringContainsString('w-full', Center::make()->fill()->render());
         $this->assertStringContainsString('w-full', Stack::make()->fill()->render());
