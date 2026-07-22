@@ -14,15 +14,19 @@ use Serixa\Component\Chip;
 use Serixa\Component\Drawer;
 use Serixa\Component\Dropdown;
 use Serixa\Component\DropdownItem;
+use Serixa\Component\DropdownMenu;
 use Serixa\Component\Modal;
+use Serixa\Component\Popover;
 use Serixa\Component\Progress;
 use Serixa\Component\Skeleton;
 use Serixa\Component\Spinner;
 use Serixa\Component\Tab;
+use Serixa\Component\TabPanel;
 use Serixa\Component\Tabs;
 use Serixa\Component\Text;
 use Serixa\Component\Toast;
 use Serixa\Component\Tooltip;
+use Serixa\Exception\InvalidArgumentException;
 use Serixa\Registry\WidgetRegistry;
 use Serixa\Runtime\ClientRuntime;
 use Serixa\Theme\ThemeManager;
@@ -90,6 +94,48 @@ final class InteractiveComponentsTest extends TestCase
         $this->assertStringContainsString('role="menuitem"', $html);
         $this->assertStringContainsString('Profile', $html);
         $this->assertStringContainsString('href="/profile"', $html);
+    }
+
+    public function testDropdownMenuStandaloneSemantics(): void
+    {
+        $html = DropdownMenu::make(
+            DropdownItem::make('Edit'),
+            DropdownItem::make('Delete')->danger(),
+        )->render();
+
+        $this->assertStringContainsString('role="menu"', $html);
+        $this->assertStringContainsString('data-serixa-dropdown-menu', $html);
+        $this->assertStringContainsString('role="menuitem"', $html);
+        $this->assertStringContainsString('Edit', $html);
+        $this->assertStringContainsString('Delete', $html);
+    }
+
+    public function testPopoverSemanticsAndValidation(): void
+    {
+        $html = Popover::make()
+            ->trigger(Button::make('More'))
+            ->content(Text::make('Details'))
+            ->open(false)
+            ->render();
+
+        $this->assertStringContainsString('data-serixa-popover', $html);
+        $this->assertStringContainsString('data-serixa-popover-trigger', $html);
+        $this->assertStringContainsString('data-serixa-popover-panel', $html);
+        $this->assertStringContainsString('role="dialog"', $html);
+        $this->assertStringContainsString('Details', $html);
+        $this->assertStringContainsString('hidden', $html);
+
+        $this->expectException(InvalidArgumentException::class);
+        Popover::make()->trigger(Button::make('x'))->render();
+    }
+
+    public function testTabPanelRequiresContent(): void
+    {
+        $html = TabPanel::make()->content(Text::make('Panel body'))->render();
+        $this->assertStringContainsString('Panel body', $html);
+
+        $this->expectException(InvalidArgumentException::class);
+        TabPanel::make()->render();
     }
 
     public function testTabsAndTabSemantics(): void
