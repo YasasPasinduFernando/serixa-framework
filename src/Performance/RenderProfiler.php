@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Serixa\Performance;
 
 /**
- * Contract for per-render / per-pass timing (implementation later).
+ * Contract for per-render / per-pass timing.
  */
 interface RenderProfiler
 {

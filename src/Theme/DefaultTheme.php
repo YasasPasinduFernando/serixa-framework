@@ -7,12 +7,17 @@ namespace Serixa\Theme;
 use Serixa\Contracts\ThemeInterface;
 use Serixa\Exception\InvalidArgumentException;
 use Serixa\Support\ClassMerger;
+use Serixa\Token\BorderToken;
+use Serixa\Token\BreakpointToken;
 use Serixa\Token\ColorToken;
 use Serixa\Token\DesignToken;
+use Serixa\Token\OpacityToken;
 use Serixa\Token\RadiusToken;
 use Serixa\Token\ShadowToken;
 use Serixa\Token\SpacingToken;
+use Serixa\Token\TransitionToken;
 use Serixa\Token\TypographyToken;
+use Serixa\Token\ZIndexToken;
 
 /**
  * Default Tailwind-backed theme.
@@ -260,7 +265,7 @@ final class DefaultTheme implements ThemeInterface
             ColorToken::surface()->name() => ['bg-white', 'dark:bg-slate-900'],
             ColorToken::background()->name() => ['bg-slate-50', 'dark:bg-slate-950'],
             ColorToken::textPrimary()->name() => ['text-slate-900', 'dark:text-slate-100'],
-            ColorToken::textMuted()->name() => ['text-slate-500'],
+            ColorToken::textMuted()->name() => ['text-slate-500', 'dark:text-slate-400'],
             SpacingToken::small()->name() => ['p-4'],
             SpacingToken::medium()->name() => ['p-6'],
             SpacingToken::large()->name() => ['p-8'],
@@ -274,7 +279,25 @@ final class DefaultTheme implements ThemeInterface
             TypographyToken::body()->name() => ['text-base', 'font-normal'],
             TypographyToken::heading()->name() => ['text-lg', 'font-semibold'],
             TypographyToken::label()->name() => ['text-sm', 'font-medium'],
-            TypographyToken::muted()->name() => ['text-slate-500'],
+            TypographyToken::muted()->name() => ['text-slate-500', 'dark:text-slate-400'],
+            BorderToken::subtle()->name() => ['border-slate-200', 'dark:border-slate-700'],
+            BorderToken::strong()->name() => ['border-slate-400', 'dark:border-slate-500'],
+            BorderToken::focus()->name() => ['outline-sky-600', 'dark:outline-sky-400'],
+            OpacityToken::disabled()->name() => ['opacity-50'],
+            OpacityToken::muted()->name() => ['opacity-70'],
+            OpacityToken::overlay()->name() => ['opacity-40'],
+            ZIndexToken::base()->name() => ['z-0'],
+            ZIndexToken::dropdown()->name() => ['z-40'],
+            ZIndexToken::sticky()->name() => ['z-50'],
+            ZIndexToken::modal()->name() => ['z-[60]'],
+            ZIndexToken::toast()->name() => ['z-[70]'],
+            BreakpointToken::sm()->name() => ['sm'],
+            BreakpointToken::md()->name() => ['md'],
+            BreakpointToken::lg()->name() => ['lg'],
+            BreakpointToken::xl()->name() => ['xl'],
+            TransitionToken::fast()->name() => ['duration-100'],
+            TransitionToken::normal()->name() => ['duration-150'],
+            TransitionToken::slow()->name() => ['duration-300'],
         ];
     }
 

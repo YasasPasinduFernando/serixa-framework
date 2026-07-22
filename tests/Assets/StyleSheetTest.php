@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Serixa\Tests\Assets;
 
 use PHPUnit\Framework\TestCase;
-use Serixa\Assets\StyleSheet;
 use Serixa\Document\Asset\AssetManager;
+use Serixa\Styling\StyleSheet;
 
 final class StyleSheetTest extends TestCase
 {

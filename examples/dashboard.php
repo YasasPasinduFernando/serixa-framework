@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-use Serixa\Assets\StyleSheet;
 use Serixa\Component\ActivityItem;
 use Serixa\Component\ActivityList;
 use Serixa\Component\Column;
@@ -14,6 +13,7 @@ use Serixa\Component\Row;
 use Serixa\Component\StatCard;
 use Serixa\Document\Document;
 use Serixa\Rendering\Renderer;
+use Serixa\Styling\StyleSheet;
 
 $page = Column::make([
     PageHeader::make()->title('Dashboard')->subtitle('Last 7 days'),

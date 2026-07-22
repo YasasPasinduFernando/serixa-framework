@@ -7,7 +7,7 @@ namespace Serixa\Performance;
 use Serixa\Inspector\PerformanceSnapshot;
 
 /**
- * Contract for overall runtime performance profiling (implementation later).
+ * Contract for overall runtime performance profiling.
  */
 interface PerformanceProfiler
 {

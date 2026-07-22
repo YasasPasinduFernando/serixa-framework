@@ -63,6 +63,25 @@ final class ThemeCompiler
             'typography.body.size' => ['light' => '1rem'],
             'typography.heading.size' => ['light' => '1.125rem'],
             'typography.label.size' => ['light' => '0.875rem'],
+            'typography.muted' => ['light' => '#64748b', 'dark' => '#94a3b8'],
+            'border.subtle' => ['light' => '#e2e8f0', 'dark' => '#1e293b'],
+            'border.strong' => ['light' => '#94a3b8', 'dark' => '#64748b'],
+            'border.focus' => ['light' => '#0284c7', 'dark' => '#38bdf8'],
+            'opacity.disabled' => ['light' => '0.5'],
+            'opacity.muted' => ['light' => '0.7'],
+            'opacity.overlay' => ['light' => '0.4'],
+            'zIndex.base' => ['light' => '0'],
+            'zIndex.dropdown' => ['light' => '40'],
+            'zIndex.sticky' => ['light' => '50'],
+            'zIndex.modal' => ['light' => '60'],
+            'zIndex.toast' => ['light' => '70'],
+            'breakpoint.sm' => ['light' => '640px'],
+            'breakpoint.md' => ['light' => '768px'],
+            'breakpoint.lg' => ['light' => '1024px'],
+            'breakpoint.xl' => ['light' => '1280px'],
+            'transition.fast' => ['light' => '100ms'],
+            'transition.normal' => ['light' => '150ms'],
+            'transition.slow' => ['light' => '300ms'],
         ];
     }
 
@@ -108,8 +127,12 @@ final class ThemeCompiler
                 new StyleProperty('border-radius', $v('radius.medium')),
                 new StyleProperty('border', '0'),
                 new StyleProperty('cursor', 'pointer'),
-                new StyleProperty('transition', 'background-color .15s ease, color .15s ease, opacity .15s ease'),
+                new StyleProperty('transition', 'background-color ' . $v('transition.normal') . ' ease, color ' . $v('transition.normal') . ' ease, opacity ' . $v('transition.normal') . ' ease, box-shadow ' . $v('transition.fast') . ' ease'),
                 new StyleProperty('text-decoration', 'none'),
+            ]),
+            new StyleRule(StyleSelector::raw('.sx-btn:focus-visible'), [
+                new StyleProperty('outline', '2px solid ' . $v('border.focus')),
+                new StyleProperty('outline-offset', '2px'),
             ]),
             new StyleRule(StyleSelector::className('sx-btn-sm'), [
                 new StyleProperty('font-size', '0.875rem'),
@@ -155,7 +178,7 @@ final class ThemeCompiler
                 new StyleProperty('border-radius', $v('radius.full')),
             ]),
             new StyleRule(StyleSelector::className('sx-btn-disabled'), [
-                new StyleProperty('opacity', '0.5'),
+                new StyleProperty('opacity', $v('opacity.disabled')),
                 new StyleProperty('cursor', 'not-allowed'),
                 new StyleProperty('pointer-events', 'none'),
             ]),
@@ -166,7 +189,7 @@ final class ThemeCompiler
                 new StyleProperty('color', $v('color.textPrimary')),
                 new StyleProperty('border-radius', $v('radius.large')),
                 new StyleProperty('box-shadow', $v('shadow.small')),
-                new StyleProperty('border', '1px solid color-mix(in srgb, ' . $v('color.textMuted') . ' 25%, transparent)'),
+                new StyleProperty('border', '1px solid ' . $v('border.subtle')),
             ]),
 
             // Form control
@@ -174,11 +197,15 @@ final class ThemeCompiler
                 new StyleProperty('display', 'block'),
                 new StyleProperty('width', '100%'),
                 new StyleProperty('border-radius', $v('radius.medium')),
-                new StyleProperty('border', '1px solid color-mix(in srgb, ' . $v('color.textMuted') . ' 45%, transparent)'),
+                new StyleProperty('border', '1px solid ' . $v('border.strong')),
                 new StyleProperty('background', $v('color.surface')),
                 new StyleProperty('color', $v('color.textPrimary')),
                 new StyleProperty('padding', '0.5rem 0.75rem'),
                 new StyleProperty('font-size', '0.875rem'),
+            ]),
+            new StyleRule(StyleSelector::raw('.sx-input:focus-visible'), [
+                new StyleProperty('outline', '2px solid ' . $v('border.focus')),
+                new StyleProperty('outline-offset', '1px'),
             ]),
             new StyleRule(StyleSelector::className('sx-label'), [
                 new StyleProperty('display', 'block'),
@@ -194,7 +221,7 @@ final class ThemeCompiler
                 new StyleProperty('font-size', $v('typography.body.size')),
             ]),
             new StyleRule(StyleSelector::className('sx-text-muted'), [
-                new StyleProperty('color', $v('color.textMuted')),
+                new StyleProperty('color', $v('typography.muted')),
             ]),
             new StyleRule(StyleSelector::className('sx-heading'), [
                 new StyleProperty('color', $v('color.textPrimary')),

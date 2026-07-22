@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-use Serixa\Assets\StyleSheet;
 use Serixa\Component\Avatar;
 use Serixa\Component\Column;
 use Serixa\Component\Image;
@@ -12,6 +11,7 @@ use Serixa\Component\Logo;
 use Serixa\Component\Text;
 use Serixa\Document\Document;
 use Serixa\Rendering\Renderer;
+use Serixa\Styling\StyleSheet;
 
 $page = Column::make([
     Logo::make()->text('SERIXA')->href('/'),

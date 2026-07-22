@@ -5,6 +5,22 @@ All notable changes to SERIXA are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [v1.0.0-rc4] - 2026-07-22
+
+Stabilization pass toward v1.0.0. No public API breaks.
+
+### Added
+- Semantic tokens: Border, Opacity, ZIndex, Breakpoint, Transition
+- NullPerformanceProfiler, NullWidgetVisitor
+- docs: styling catalog links, performance-v1, migration/upgrade/known-issues/release checklist & notes
+- tools/benchmarks/v1-performance.php
+
+### Changed
+- Apps/examples migrate to Serixa\\Styling\\StyleSheet
+- README / FAQ / installation aligned with offline Theme Compiler
+- ThemeCompiler focus/hover/disabled use semantic token variables
+- Website DocsCatalog: styling, assets, troubleshooting, performance
+
 ## [v1.0.0-rc3] — 2026-07-22
 
 Offline CSS build pipeline. Removes Tailwind Play CDN from DocumentFactory and app layouts.

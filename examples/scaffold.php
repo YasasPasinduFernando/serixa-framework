@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-use Serixa\Assets\StyleSheet;
 use Serixa\Component\AppBar;
 use Serixa\Component\Button;
 use Serixa\Component\Divider;
@@ -16,6 +15,7 @@ use Serixa\Component\Sidebar;
 use Serixa\Component\Text;
 use Serixa\Document\Document;
 use Serixa\Rendering\Renderer;
+use Serixa\Styling\StyleSheet;
 
 $shell = Scaffold::make()
     ->appBar(

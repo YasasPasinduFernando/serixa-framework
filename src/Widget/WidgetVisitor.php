@@ -7,7 +7,7 @@ namespace Serixa\Widget;
 use Serixa\Contracts\WidgetInterface;
 
 /**
- * Visitor over live widgets (preparation for DevTools / plugins).
+ * Visitor over live widgets (DevTools / plugins). See NullWidgetVisitor.
  */
 interface WidgetVisitor
 {

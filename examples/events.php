@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-use Serixa\Assets\StyleSheet;
 use Serixa\Component\Button;
 use Serixa\Component\Column;
 use Serixa\Component\Form;
@@ -17,6 +16,7 @@ use Serixa\Document\Document;
 use Serixa\Event\EventRegistry;
 use Serixa\Rendering\Renderer;
 use Serixa\Runtime\ClientRuntime;
+use Serixa\Styling\StyleSheet;
 
 $registry = (new EventRegistry())
     ->register('login', 'submit', 'Demo login form')

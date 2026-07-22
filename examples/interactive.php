@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-use Serixa\Assets\StyleSheet;
 use Serixa\Component\Accordion;
 use Serixa\Component\AccordionItem;
 use Serixa\Component\Badge;
@@ -23,6 +22,7 @@ use Serixa\Component\Toast;
 use Serixa\Document\Document;
 use Serixa\Rendering\Renderer;
 use Serixa\Runtime\ClientRuntime;
+use Serixa\Styling\StyleSheet;
 
 $page = Column::make([
     Text::make('Interactive components')->as('h1')->size('2xl')->weight('bold'),

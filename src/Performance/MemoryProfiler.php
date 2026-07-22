@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Serixa\Performance;
 
 /**
- * Contract for memory sampling during render (implementation later).
+ * Contract for memory sampling during render.
  */
 interface MemoryProfiler
 {
