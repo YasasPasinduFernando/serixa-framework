@@ -1,8 +1,14 @@
 {
     "name": "serixa/framework",
-    "description": "SERIXA — a Flutter-inspired PHP UI framework. Write PHP widgets, get semantic HTML.",
+    "description": "SERIXA \u2014 a Flutter-inspired PHP UI framework. Write PHP widgets, get semantic HTML.",
     "type": "library",
     "license": "MIT",
+    "homepage": "https://github.com/YasasPasinduFernando/serixa",
+    "support": {
+        "issues": "https://github.com/YasasPasinduFernando/serixa/issues",
+        "source": "https://github.com/YasasPasinduFernando/serixa",
+        "docs": "https://github.com/YasasPasinduFernando/serixa/tree/main/docs"
+    },
     "keywords": [
         "serixa",
         "php",
@@ -15,7 +21,8 @@
     ],
     "authors": [
         {
-            "name": "SERIXA Contributors"
+            "name": "SERIXA Contributors",
+            "homepage": "https://github.com/YasasPasinduFernando/serixa"
         }
     ],
     "require": {

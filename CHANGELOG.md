@@ -5,6 +5,36 @@ All notable changes to SERIXA are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [v1.0.0] - 2026-07-22
+
+First stable release. No public API breaks vs `v1.0.0-rc5`.
+
+### Added
+- Production hardening: ClassMerger / ThemeCompiler / RenderPipeline caches
+- Core CLI: `doctor`, `inspect`, `benchmark`, `profile`, `cache:clear`
+- Widget catalog + ARIA contract test suites
+- Canonical typography CSS vars + ColorToken hover/onPrimary factories
+- Packagist-facing `homepage` / `support` metadata across the monorepo
+- `SECURITY.md`, root `.gitattributes`
+
+### Changed
+- AccessibilityPass emits inventory stats metadata
+- Card / Container accept `WidgetInterface` children
+- Docs: CLI, Charts/Calendar packages, architecture hardening backlog
+
+## [v1.0.0-rc5] - 2026-07-22
+
+Production-hardening candidate toward v1.0.0.
+
+### Added
+- `serixa profile`, `serixa cache:clear`
+- Exhaustive theme key + ClassMerger conflict matrix tests
+- Accessibility inventory documentation
+
+### Changed
+- ThemeCompiler typography aliases aligned with `TypographyToken`
+- CLI version `0.1.3`
+
 ## [v1.0.0-rc4] - 2026-07-22
 
 Stabilization pass toward v1.0.0. No public API breaks.
