@@ -52,7 +52,7 @@ final class ComponentTest extends TestCase
         $this->assertStringContainsString('type="submit"', $html);
         $this->assertStringContainsString('disabled', $html);
         $this->assertStringContainsString('aria-disabled="true"', $html);
-        $this->assertStringContainsString('bg-red-600', $html);
+        $this->assertStringContainsString('sx-btn-danger', $html);
         $this->assertStringContainsString('custom-btn', $html);
         $this->assertStringContainsString('Save</button>', $html);
     }

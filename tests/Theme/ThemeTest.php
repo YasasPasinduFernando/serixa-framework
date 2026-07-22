@@ -72,10 +72,10 @@ final class ThemeTest extends TestCase
     {
         $theme = new DefaultTheme();
 
-        $this->assertContains('bg-sky-600', $theme->buttonPrimary());
-        $this->assertContains('bg-slate-100', $theme->buttonSecondary());
-        $this->assertContains('bg-red-600', $theme->buttonDanger());
-        $this->assertContains('bg-transparent', $theme->buttonGhost());
+        $this->assertContains('sx-btn-primary', $theme->buttonPrimary());
+        $this->assertContains('sx-btn-secondary', $theme->buttonSecondary());
+        $this->assertContains('sx-btn-danger', $theme->buttonDanger());
+        $this->assertContains('sx-btn-ghost', $theme->buttonGhost());
     }
 
     public function testUnknownComponentThrows(): void

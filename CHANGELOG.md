@@ -24,6 +24,16 @@ Offline CSS build pipeline. Removes Tailwind Play CDN from DocumentFactory and a
 - Docs tutorials no longer show CDN script tags
 - Generic Row / Column / Center / Stack no longer apply w-full by default (specialized layouts own sizing; Container still fills by default)
 
+### Added (theme compiler)
+- Serixa\\Styling\\* engine: StyleSheet, StyleCompiler, StyleRule, StyleSelector, StyleProperty, ThemeCompiler, CssWriter, CssOptimizer, ThemeManifest
+- Theme tokens compile to CSS variables + .sx-* recipes (e.g. .sx-btn-primary)
+- docs/styling.md
+
+### Changed (theme compiler)
+- Public stylesheet URL is /assets/serixa.css (BC alias still writes pp.css)
+- serixa build runs ThemeCompiler + CssOptimizer before foundation merge
+- DefaultTheme button variants emit semantic .sx-btn-* classes
+
 ### Removed
 - Tailwind Play CDN (`cdn.tailwindcss.com`) and local Play CDN vendor script from the docs website
 

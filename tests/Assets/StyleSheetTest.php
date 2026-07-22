@@ -24,26 +24,32 @@ final class StyleSheetTest extends TestCase
 
         $this->assertNotEmpty($collected);
         $this->assertSame('css', $collected[0]['type']);
-        $this->assertSame('/assets/app.css', $collected[0]['path']);
+        $this->assertSame('/assets/serixa.css', $collected[0]['path']);
     }
 
-    public function testBuildMergesBaseIntoPublicAssets(): void
+    public function testBuildCompilesThemeIntoPublicAssets(): void
     {
         $root = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'serixa-css-' . uniqid('', true);
         mkdir($root . '/resources/css', 0777, true);
         mkdir($root . '/public/assets', 0777, true);
-        file_put_contents($root . '/resources/css/app.css', '/* app */\n.site-test{color:red}');
+        file_put_contents($root . '/resources/css/app.css', "/* app */\n.site-test{color:red}");
 
         $result = StyleSheet::build($root);
 
+        $this->assertFileExists($root . '/public/assets/serixa.css');
         $this->assertFileExists($root . '/public/assets/app.css');
-        $this->assertFileExists($root . '/build/app.css');
+        $this->assertFileExists($root . '/build/serixa.css');
+        $this->assertFileExists($root . '/build/theme-manifest.json');
         $this->assertGreaterThan(1000, $result['bytes']);
-        $css = (string) file_get_contents($root . '/public/assets/app.css');
+        $css = (string) file_get_contents($root . '/public/assets/serixa.css');
+        $this->assertStringContainsString('.sx-btn-primary', $css);
+        $this->assertStringContainsString('--sx-color-primary', $css);
         $this->assertStringContainsString('.flex{', $css);
         $this->assertStringContainsString('site-test', $css);
+        $this->assertContains('theme:compiler', $result['sources']);
         $this->assertContains('assets/css/serixa.css', $result['sources']);
         $this->assertContains('resources/css/app.css', $result['sources']);
+        $this->assertGreaterThan(0, $result['rules'] ?? 0);
 
         $this->deleteTree($root);
     }

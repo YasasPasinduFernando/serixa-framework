@@ -290,6 +290,7 @@ final class DefaultTheme implements ThemeInterface
         $rounded = (bool) ($state['rounded'] ?? false);
 
         $base = [
+            'sx-btn',
             'inline-flex',
             'items-center',
             'justify-center',
@@ -302,16 +303,16 @@ final class DefaultTheme implements ThemeInterface
         ];
 
         $sizes = [
-            'sm' => ['text-sm', 'px-3', 'py-1.5'],
-            'md' => ['text-sm', 'px-4', 'py-2'],
-            'lg' => ['text-base', 'px-5', 'py-2.5'],
+            'sm' => ['sx-btn-sm', 'text-sm', 'px-3', 'py-1.5'],
+            'md' => ['sx-btn-md', 'text-sm', 'px-4', 'py-2'],
+            'lg' => ['sx-btn-lg', 'text-base', 'px-5', 'py-2.5'],
         ];
 
         $variants = [
-            'primary' => $this->classMerger->merge($this->token(ColorToken::primary()), ['text-white']),
-            'secondary' => $this->classMerger->merge($this->token(ColorToken::secondary()), [$this->token(ColorToken::textPrimary())[0]]),
-            'danger' => $this->classMerger->merge($this->token(ColorToken::danger()), ['text-white']),
-            'ghost' => ['bg-transparent', 'text-slate-700', 'hover:bg-slate-100'],
+            'primary' => ['sx-btn-primary', 'text-white'],
+            'secondary' => ['sx-btn-secondary'],
+            'danger' => ['sx-btn-danger', 'text-white'],
+            'ghost' => ['sx-btn-ghost', 'bg-transparent', 'text-slate-700', 'hover:bg-slate-100'],
         ];
 
         if (! isset($sizes[$size], $variants[$variant])) {
@@ -327,9 +328,10 @@ final class DefaultTheme implements ThemeInterface
         return $this->classMerger->merge(
             $base,
             $this->token($rounded ? RadiusToken::full() : RadiusToken::medium()),
+            $rounded ? ['sx-btn-rounded'] : [],
             $sizes[$size],
             $variants[$variant],
-            $disabled ? ['opacity-50', 'cursor-not-allowed', 'pointer-events-none'] : [],
+            $disabled ? ['sx-btn-disabled', 'opacity-50', 'cursor-not-allowed', 'pointer-events-none'] : [],
         );
     }
 

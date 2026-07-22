@@ -129,7 +129,7 @@ final class LayoutTest extends TestCase
         $this->assertStringContainsString('Welcome', $html);
         $this->assertStringContainsString('h-20', $html);
         $this->assertStringContainsString('Continue', $html);
-        $this->assertStringContainsString('bg-sky-600', $html);
+        $this->assertStringContainsString('sx-btn-primary', $html);
         $this->assertStringContainsString('text-base', $html);
     }
 
@@ -137,7 +137,7 @@ final class LayoutTest extends TestCase
     {
         $html = Button::make('Go')->secondary()->small()->rounded()->render();
 
-        $this->assertStringContainsString('bg-slate-100', $html);
+        $this->assertStringContainsString('sx-btn-secondary', $html);
         $this->assertStringContainsString('px-3', $html);
         $this->assertStringContainsString('rounded-full', $html);
     }
