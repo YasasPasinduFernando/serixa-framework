@@ -14,6 +14,8 @@ final class RenderPipeline
     /** @var list<RenderPassInterface> */
     private array $passes = [];
 
+    private static ?self $defaultInstance = null;
+
     /**
      * @param list<RenderPassInterface> $passes
      */
@@ -48,9 +50,12 @@ final class RenderPipeline
         return $context;
     }
 
+    /**
+     * Shared default pipeline (immutable pass list). Prefer this over allocating per render.
+     */
     public static function default(): self
     {
-        return new self([
+        return self::$defaultInstance ??= new self([
             new Pass\BuildTreePass(),
             new Pass\ResolveContextPass(),
             new Pass\LifecyclePass(),
@@ -58,5 +63,13 @@ final class RenderPipeline
             new Pass\AccessibilityPass(),
             new Pass\RenderPass(),
         ]);
+    }
+
+    /**
+     * Reset the shared default (tests / custom environments).
+     */
+    public static function resetDefault(): void
+    {
+        self::$defaultInstance = null;
     }
 }

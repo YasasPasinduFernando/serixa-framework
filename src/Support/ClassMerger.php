@@ -10,15 +10,28 @@ namespace Serixa\Support;
  * Exact duplicates are dropped. Within a conflict group (e.g. width utilities),
  * a later token replaces an earlier one so consumer classes can override theme defaults.
  * Variant prefixes (`sm:`, `dark:`, `hover:`, …) scope groups independently.
+ *
+ * Hot-path caches: per-class conflict groups and identical merge inputs.
  */
 final class ClassMerger
 {
+    /** @var array<string, string|null> */
+    private static array $conflictGroupCache = [];
+
+    /** @var array<string, list<string>> */
+    private array $mergeCache = [];
+
     /**
      * @param list<string> ...$groups
      * @return list<string>
      */
     public function merge(array ...$groups): array
     {
+        $cacheKey = $this->mergeCacheKey($groups);
+        if ($cacheKey !== null && isset($this->mergeCache[$cacheKey])) {
+            return $this->mergeCache[$cacheKey];
+        }
+
         /** @var list<string> $ordered */
         $ordered = [];
         /** @var array<string, int> $groupIndex conflict-group => position in $ordered */
@@ -55,7 +68,13 @@ final class ClassMerger
             }
         }
 
-        return array_values($ordered);
+        $result = array_values($ordered);
+
+        if ($cacheKey !== null && count($this->mergeCache) < 2048) {
+            $this->mergeCache[$cacheKey] = $result;
+        }
+
+        return $result;
     }
 
     /**
@@ -66,12 +85,53 @@ final class ClassMerger
         return implode(' ', $this->merge(...$groups));
     }
 
+    public function clearCache(): void
+    {
+        $this->mergeCache = [];
+    }
+
+    public static function clearConflictGroupCache(): void
+    {
+        self::$conflictGroupCache = [];
+    }
+
+    /**
+     * @param list<list<string>> $groups
+     */
+    private function mergeCacheKey(array $groups): ?string
+    {
+        $flat = [];
+        $count = 0;
+
+        foreach ($groups as $group) {
+            foreach ($group as $class) {
+                $flat[] = $class;
+                ++$count;
+                if ($count > 64) {
+                    return null;
+                }
+            }
+            $flat[] = "\0";
+        }
+
+        return implode("\x1e", $flat);
+    }
+
     private static function conflictGroup(string $class): ?string
     {
+        if (array_key_exists($class, self::$conflictGroupCache)) {
+            return self::$conflictGroupCache[$class];
+        }
+
         [$variant, $base] = self::splitVariants($class);
         $id = self::baseConflictId($base);
+        $group = $id === null ? null : $variant . $id;
 
-        return $id === null ? null : $variant . $id;
+        if (count(self::$conflictGroupCache) < 4096) {
+            self::$conflictGroupCache[$class] = $group;
+        }
+
+        return $group;
     }
 
     /**

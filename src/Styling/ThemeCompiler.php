@@ -12,15 +12,26 @@ namespace Serixa\Styling;
  */
 final class ThemeCompiler
 {
+    /** @var list<StyleRule>|null */
+    private ?array $compiled = null;
+
     /**
      * @return list<StyleRule>
      */
     public function compile(): array
     {
-        return array_merge(
+        return $this->compiled ??= array_merge(
             $this->tokenRules(),
             $this->componentRecipes(),
         );
+    }
+
+    /**
+     * Drop memoized rules (e.g. after swapping token sources in tests).
+     */
+    public function forget(): void
+    {
+        $this->compiled = null;
     }
 
     /**
