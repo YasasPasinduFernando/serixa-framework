@@ -78,7 +78,9 @@ final class Pagination extends Component
     public function render(): string
     {
         if ($this->urlForPage === null) {
-            throw new InvalidArgumentException('Pagination requires urlForPage(callable).');
+            throw new InvalidArgumentException(
+                'Pagination requires urlForPage(callable). Example: Pagination::make()->urlForPage(fn (int $page): string => "/?page={$page}").',
+            );
         }
 
         $items = [];

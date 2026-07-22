@@ -203,7 +203,10 @@ final class DefaultTheme implements ThemeInterface
             'tabs.tab' => $this->tabsTab($state),
             'tabs.panel' => $this->tabsPanel($state),
             'icon' => $this->icon($state),
-            default => throw new InvalidArgumentException(sprintf('Unknown theme component "%s".', $component)),
+            default => throw new InvalidArgumentException(sprintf(
+                'Unknown theme component "%s". Tip: use DefaultTheme::classes() keys such as "button", "card", or "modal".',
+                $component,
+            )),
         };
     }
 
@@ -213,7 +216,10 @@ final class DefaultTheme implements ThemeInterface
         $map = $this->tokenMap();
 
         if (! isset($map[$name])) {
-            throw new InvalidArgumentException(sprintf('Unknown design token "%s".', $name));
+            throw new InvalidArgumentException(sprintf(
+                'Unknown design token "%s". Tip: use ColorToken::*, SpacingToken::*, or TypographyToken::* factories.',
+                $name,
+            ));
         }
 
         return $map[$name];

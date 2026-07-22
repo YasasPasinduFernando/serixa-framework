@@ -19,6 +19,9 @@ final class AssetManager
     /** @var list<array{type: string, path: string, options: array<string, mixed>}> */
     private array $loose = [];
 
+    /** @var list<string> */
+    private array $inlineScripts = [];
+
     public function __construct(
         private AssetResolver $resolver = new AssetResolver(),
     ) {
@@ -59,6 +62,19 @@ final class AssetManager
     public function js(string $path, array $options = []): self
     {
         $this->loose[] = ['type' => 'js', 'path' => $path, 'options' => $options];
+
+        return $this;
+    }
+
+    /**
+     * Register trusted inline JavaScript emitted before the closing &lt;/head&gt;.
+     */
+    public function inlineScript(string $javascript): self
+    {
+        $trimmed = trim($javascript);
+        if ($trimmed !== '') {
+            $this->inlineScripts[] = $trimmed;
+        }
 
         return $this;
     }
@@ -145,6 +161,10 @@ final class AssetManager
                 'image' => $head->link(Link::preload($url, 'image', $this->stringOptions($options))),
                 default => null,
             };
+        }
+
+        foreach ($this->inlineScripts as $javascript) {
+            $head->script(Script::inline($javascript));
         }
     }
 

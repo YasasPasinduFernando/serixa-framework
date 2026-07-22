@@ -74,7 +74,7 @@ final class StyleCompiler
         );
 
         $manifest = new ThemeManifest(
-            version: '1.0.0-rc3',
+            version: '1.0.0',
             selectors: $selectors,
             tokens: $this->themeCompiler->tokenNames(),
             sources: $sources,

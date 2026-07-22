@@ -74,7 +74,9 @@ final class Popover extends Component
     public function render(): string
     {
         if ($this->trigger === null || $this->content === null) {
-            throw new InvalidArgumentException('Popover requires trigger() and content().');
+            throw new InvalidArgumentException(
+                'Popover requires trigger() and content(). Example: Popover::make()->trigger(Button::make("More"))->content(Text::make("Details")).',
+            );
         }
 
         $id = $this->resolveWidgetId('popover');
