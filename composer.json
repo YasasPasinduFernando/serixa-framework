@@ -7,7 +7,7 @@
     "support": {
         "issues": "https://github.com/YasasPasinduFernando/serixa/issues",
         "source": "https://github.com/YasasPasinduFernando/serixa",
-        "docs": "https://github.com/YasasPasinduFernando/serixa/tree/main/docs"
+        "docs": "https://serixa.yasaboy.com"
     },
     "keywords": [
         "serixa",
@@ -16,7 +16,7 @@
         "widgets",
         "components",
         "html",
-        "tailwind",
+        "ssr",
         "flutter"
     ],
     "authors": [
