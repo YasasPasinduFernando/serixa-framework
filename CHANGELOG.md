@@ -5,6 +5,14 @@ All notable changes to SERIXA are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [v1.0.1] - 2026-10-31
+
+### Security
+- Reject malformed HTML attribute names and executable navigation URL schemes in AttributeBag. Applications passing these values now receive InvalidArgumentException; ordinary escaped text and relative URLs remain supported.
+
+### Fixed
+- Preserve all primary/muted text token classes, including dark-mode colors, instead of selecting only the light-mode class.
+
 ## [v1.0.0] - 2026-07-22
 
 First stable release. No public API breaks vs `v1.0.0-rc5`.

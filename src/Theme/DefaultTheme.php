@@ -395,10 +395,10 @@ final class DefaultTheme implements ThemeInterface
         ];
 
         $tones = [
-            'default' => $this->token(ColorToken::textPrimary())[0],
-            'muted' => $this->token(ColorToken::textMuted())[0],
-            'primary' => 'text-sky-700',
-            'danger' => 'text-red-700',
+            'default' => $this->token(ColorToken::textPrimary()),
+            'muted' => $this->token(ColorToken::textMuted()),
+            'primary' => ['text-sky-700'],
+            'danger' => ['text-red-700'],
         ];
 
         if (! isset($sizes[$size], $weights[$weight], $tones[$tone])) {
@@ -410,7 +410,7 @@ final class DefaultTheme implements ThemeInterface
             ));
         }
 
-        return [$sizes[$size], $weights[$weight], $tones[$tone]];
+        return [$sizes[$size], $weights[$weight], ...$tones[$tone]];
     }
 
     /**
