@@ -1,5 +1,5 @@
 /**
- * SERIXA client runtime v0.11.1 — progressive enhancement + interactive modules.
+ * SERIXA client runtime v0.11.2 — progressive enhancement + interactive modules.
  *
  * NO virtual DOM, hydration, routing, or SPA state engine.
  */
@@ -97,6 +97,39 @@
     }
   }
 
+  function setExpanded(trigger, open) {
+    if (trigger) {
+      trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+  }
+
+  function focusTrigger(trigger) {
+    if (trigger && typeof trigger.focus === 'function') {
+      trigger.focus();
+    }
+  }
+
+  function trapFocus(event, container) {
+    if (event.key !== 'Tab' || !container) {
+      return;
+    }
+    var nodes = focusable(container);
+    if (!nodes.length) {
+      event.preventDefault();
+      container.focus();
+      return;
+    }
+    var first = nodes[0];
+    var last = nodes[nodes.length - 1];
+    if (event.shiftKey && global.document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && global.document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+
   function pushOverlay(el) {
     overlayStack.push(el);
   }
@@ -190,22 +223,7 @@
             close();
             return;
           }
-          if (e.key !== 'Tab' || !dialog) {
-            return;
-          }
-          var nodes = focusable(dialog);
-          if (!nodes.length) {
-            return;
-          }
-          var first = nodes[0];
-          var last = nodes[nodes.length - 1];
-          if (e.shiftKey && global.document.activeElement === first) {
-            e.preventDefault();
-            last.focus();
-          } else if (!e.shiftKey && global.document.activeElement === last) {
-            e.preventDefault();
-            first.focus();
-          }
+          trapFocus(e, dialog);
         });
 
         root.querySelectorAll('[data-serixa-open-modal="' + rootEl.id + '"]').forEach(function (btn) {
@@ -259,10 +277,15 @@
         });
 
         rootEl.addEventListener('keydown', function (e) {
-          if (e.key === 'Escape' && rootEl.getAttribute('data-serixa-open') === 'true') {
+          if (rootEl.getAttribute('data-serixa-open') !== 'true') {
+            return;
+          }
+          if (e.key === 'Escape') {
             e.preventDefault();
             close();
+            return;
           }
+          trapFocus(e, panel);
         });
 
         root.querySelectorAll('[data-serixa-open-drawer="' + rootEl.id + '"]').forEach(function (btn) {
@@ -295,9 +318,7 @@
           if (panel) {
             panel.removeAttribute('hidden');
           }
-          if (trigger) {
-            trigger.setAttribute('aria-expanded', 'true');
-          }
+          setExpanded(trigger, true);
           var list = items();
           if (list[0]) {
             list[0].focus();
@@ -309,9 +330,7 @@
           if (panel) {
             panel.setAttribute('hidden', 'hidden');
           }
-          if (trigger) {
-            trigger.setAttribute('aria-expanded', 'false');
-          }
+          setExpanded(trigger, false);
         }
 
         function toggle() {
@@ -342,12 +361,7 @@
           if (e.key === 'Escape') {
             e.preventDefault();
             close();
-            if (trigger) {
-              var btn = trigger.querySelector('button,a,[tabindex]') || trigger;
-              if (btn.focus) {
-                btn.focus();
-              }
-            }
+            focusTrigger(trigger);
           } else if (e.key === 'ArrowDown') {
             e.preventDefault();
             if (list.length) {
@@ -386,6 +400,7 @@
           if (panel) {
             panel.removeAttribute('hidden');
           }
+          setExpanded(trigger, true);
         }
 
         function close() {
@@ -393,6 +408,7 @@
           if (panel) {
             panel.setAttribute('hidden', 'hidden');
           }
+          setExpanded(trigger, false);
         }
 
         if (trigger) {
@@ -408,6 +424,14 @@
 
         rootEl.addEventListener('keydown', function (e) {
           if (e.key === 'Escape') {
+            e.preventDefault();
+            close();
+            focusTrigger(trigger);
+          }
+        });
+
+        global.document.addEventListener('click', function (e) {
+          if (!rootEl.contains(e.target)) {
             close();
           }
         });
@@ -639,7 +663,7 @@
   }
 
   var Serixa = {
-    version: '0.11.1',
+    version: '0.11.2',
     register: register,
     unregister: unregister,
     get: get,

@@ -29,6 +29,8 @@ final class Modal extends Component
 
     private bool $dismissible = true;
 
+    private ?string $ariaLabel = null;
+
     private function __construct()
     {
         parent::__construct();
@@ -73,6 +75,13 @@ final class Modal extends Component
     public function dismissible(bool $dismissible = true): self
     {
         $this->dismissible = $dismissible;
+
+        return $this;
+    }
+
+    public function ariaLabel(string $label): self
+    {
+        $this->ariaLabel = $label;
 
         return $this;
     }
@@ -131,6 +140,7 @@ final class Modal extends Component
                 'role' => 'dialog',
                 'aria-modal' => 'true',
                 'aria-labelledby' => $this->title !== null ? $titleId : null,
+                'aria-label' => $this->title === null ? ($this->ariaLabel ?? 'Dialog') : null,
                 'data-serixa-modal-dialog' => true,
                 'tabindex' => '-1',
             ],

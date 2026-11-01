@@ -47,7 +47,15 @@ final class Avatar extends Component
 
     public function initials(string $initials): self
     {
-        $this->initials = mb_strtoupper(mb_substr(trim($initials), 0, 3));
+        $initials = trim($initials);
+        $characters = preg_split('//u', $initials, -1, PREG_SPLIT_NO_EMPTY);
+        $initials = $characters === false
+            ? substr($initials, 0, 3)
+            : implode('', array_slice($characters, 0, 3));
+
+        $this->initials = function_exists('mb_strtoupper')
+            ? mb_strtoupper($initials)
+            : strtoupper($initials);
 
         return $this;
     }

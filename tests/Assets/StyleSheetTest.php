@@ -45,6 +45,7 @@ final class StyleSheetTest extends TestCase
         $this->assertStringContainsString('.sx-btn-primary', $css);
         $this->assertStringContainsString('--sx-color-primary', $css);
         $this->assertStringContainsString('.flex{', $css);
+        $this->assertStringContainsString('[hidden]:not([hidden=until-found]){display:none!important}', $css);
         $this->assertStringContainsString('site-test', $css);
         $this->assertContains('theme:compiler', $result['sources']);
         $this->assertContains('assets/css/serixa.css', $result['sources']);

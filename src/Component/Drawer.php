@@ -30,6 +30,8 @@ final class Drawer extends Component
 
     private bool $dismissible = true;
 
+    private ?string $ariaLabel = null;
+
     private function __construct()
     {
         parent::__construct();
@@ -76,6 +78,13 @@ final class Drawer extends Component
         return $this;
     }
 
+    public function ariaLabel(string $label): self
+    {
+        $this->ariaLabel = $label;
+
+        return $this;
+    }
+
     public function childrenForTree(): array
     {
         return $this->body !== null ? [$this->body] : [];
@@ -116,6 +125,7 @@ final class Drawer extends Component
                 'role' => 'dialog',
                 'aria-modal' => 'true',
                 'aria-labelledby' => $this->title !== null ? $titleId : null,
+                'aria-label' => $this->title === null ? ($this->ariaLabel ?? 'Drawer') : null,
                 'data-serixa-drawer-panel' => true,
                 'tabindex' => '-1',
             ],

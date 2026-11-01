@@ -8,6 +8,7 @@ use Serixa\Component\Concerns\ResolvesTheme;
 use Serixa\Component\Concerns\ResolvesWidgetId;
 use Serixa\Contracts\WidgetInterface;
 use Serixa\Exception\InvalidArgumentException;
+use Serixa\Widget\Widget;
 
 /**
  * Trigger + menu dropdown (SSR + DropdownModule keyboard nav).
@@ -95,13 +96,23 @@ final class Dropdown extends Component
 
         $menuWidget = $this->menu ?? DropdownMenu::make($this->items);
 
-        $triggerHtml = sprintf(
-            '<div%s data-serixa-dropdown-trigger aria-haspopup="menu" aria-expanded="%s" aria-controls="%s">%s</div>',
-            $this->buildStructuralAttributeString($this->theme()->classes('dropdown.trigger')),
-            $this->open ? 'true' : 'false',
-            $this->escape($menuId),
-            $this->renderChild($this->trigger),
-        );
+        $triggerAttributes = [
+            'data-serixa-dropdown-trigger' => true,
+            'aria-haspopup' => 'menu',
+            'aria-expanded' => $this->open ? 'true' : 'false',
+            'aria-controls' => $menuId,
+        ];
+
+        if ($this->trigger instanceof Widget) {
+            $trigger = clone $this->trigger;
+            $triggerHtml = $trigger->attributes($triggerAttributes)->render();
+        } else {
+            $triggerHtml = sprintf(
+                '<button%s type="button">%s</button>',
+                $this->buildStructuralAttributeString($this->theme()->classes('dropdown.trigger'), $triggerAttributes),
+                $this->renderChild($this->trigger),
+            );
+        }
 
         // Panel owns role=menu; render item children to avoid nested menus.
         $menuHtml = sprintf(

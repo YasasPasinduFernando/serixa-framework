@@ -56,6 +56,9 @@ final class InteractiveComponentsTest extends TestCase
         $this->assertStringContainsString('Confirm', $closed);
         $this->assertStringContainsString('Are you sure?', $closed);
 
+        $labelled = Modal::make()->body('Body')->ariaLabel('Delete confirmation')->render();
+        $this->assertStringContainsString('aria-label="Delete confirmation"', $labelled);
+
         $open = Modal::make()->title('Open')->body('Hi')->open(true)->render();
         $this->assertStringContainsString('data-serixa-open="true"', $open);
         $this->assertDoesNotMatchRegularExpression('/data-serixa-modal[^>]*\shidden[\s>]/', $open);
@@ -75,12 +78,16 @@ final class InteractiveComponentsTest extends TestCase
         $this->assertStringContainsString('aria-modal="true"', $html);
         $this->assertStringContainsString('Filters', $html);
         $this->assertStringContainsString('hidden', $html);
+
+        $labelled = Drawer::make()->body('Body')->ariaLabel('Filters panel')->render();
+        $this->assertStringContainsString('aria-label="Filters panel"', $labelled);
     }
 
     public function testDropdownAndDropdownItemSemantics(): void
     {
+        $trigger = Button::make('Menu');
         $html = Dropdown::make()
-            ->trigger(Button::make('Menu'))
+            ->trigger($trigger)
             ->items([
                 DropdownItem::make('Profile')->href('/profile'),
                 DropdownItem::make('Logout'),
@@ -94,6 +101,8 @@ final class InteractiveComponentsTest extends TestCase
         $this->assertStringContainsString('role="menuitem"', $html);
         $this->assertStringContainsString('Profile', $html);
         $this->assertStringContainsString('href="/profile"', $html);
+        $this->assertMatchesRegularExpression('/<button[^>]+data-serixa-dropdown-trigger[^>]+aria-haspopup="menu"/', $html);
+        $this->assertStringNotContainsString('data-serixa-dropdown-trigger', $trigger->render());
     }
 
     public function testDropdownMenuStandaloneSemantics(): void
@@ -112,8 +121,9 @@ final class InteractiveComponentsTest extends TestCase
 
     public function testPopoverSemanticsAndValidation(): void
     {
+        $trigger = Button::make('More');
         $html = Popover::make()
-            ->trigger(Button::make('More'))
+            ->trigger($trigger)
             ->content(Text::make('Details'))
             ->open(false)
             ->render();
@@ -124,6 +134,9 @@ final class InteractiveComponentsTest extends TestCase
         $this->assertStringContainsString('role="dialog"', $html);
         $this->assertStringContainsString('Details', $html);
         $this->assertStringContainsString('hidden', $html);
+        $this->assertStringContainsString('aria-label="Popover"', $html);
+        $this->assertMatchesRegularExpression('/<button[^>]+data-serixa-popover-trigger[^>]+aria-expanded="false"/', $html);
+        $this->assertStringNotContainsString('data-serixa-popover-trigger', $trigger->render());
 
         $this->expectException(InvalidArgumentException::class);
         Popover::make()->trigger(Button::make('x'))->render();
@@ -228,9 +241,19 @@ final class InteractiveComponentsTest extends TestCase
         $this->assertStringContainsString('aria-valuenow="40"', $progress);
         $this->assertStringContainsString('data-serixa-progress', $progress);
 
+        $clamped = Progress::make()->value(120)->max(100)->render();
+        $this->assertStringContainsString('aria-valuenow="100"', $clamped);
+        $this->assertStringContainsString('style="width: 100%"', $clamped);
+
         $skeleton = Skeleton::make()->lines(3)->render();
         $this->assertStringContainsString('data-serixa-skeleton', $skeleton);
         $this->assertStringContainsString('role="status"', $skeleton);
+    }
+
+    public function testProgressRejectsNonFiniteValues(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        Progress::make()->value(INF);
     }
 
     public function testRegistryContainsInteractiveWidgets(): void
@@ -252,7 +275,7 @@ final class InteractiveComponentsTest extends TestCase
         $this->assertFileExists($path);
         $contents = (string) file_get_contents($path);
         $this->assertStringContainsString('module(', $contents);
-        $this->assertStringContainsString('0.11.1', $contents);
+        $this->assertStringContainsString('0.11.2', $contents);
         $this->assertStringContainsString('modal', $contents);
     }
 }

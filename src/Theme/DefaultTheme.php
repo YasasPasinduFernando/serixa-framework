@@ -1689,11 +1689,11 @@ final class DefaultTheme implements ThemeInterface
     {
         $color = (string) ($state['color'] ?? 'neutral');
         $tones = [
-            'neutral' => ['bg-slate-100', 'text-slate-700'],
-            'primary' => ['bg-teal-100', 'text-teal-800'],
-            'success' => ['bg-emerald-100', 'text-emerald-800'],
-            'warning' => ['bg-amber-100', 'text-amber-900'],
-            'danger' => ['bg-rose-100', 'text-rose-800'],
+            'neutral' => ['bg-slate-100', 'text-slate-700', 'dark:bg-slate-800', 'dark:text-slate-200'],
+            'primary' => ['bg-teal-100', 'text-teal-800', 'dark:bg-teal-950', 'dark:text-teal-200'],
+            'success' => ['bg-emerald-100', 'text-emerald-800', 'dark:bg-emerald-950', 'dark:text-emerald-200'],
+            'warning' => ['bg-amber-100', 'text-amber-900', 'dark:bg-amber-950', 'dark:text-amber-200'],
+            'danger' => ['bg-rose-100', 'text-rose-800', 'dark:bg-rose-950', 'dark:text-rose-200'],
         ];
 
         return array_merge(
@@ -1726,7 +1726,7 @@ final class DefaultTheme implements ThemeInterface
      */
     private function chipDismiss(array $state): array
     {
-        return ['ml-1', 'rounded-full', 'px-1', 'text-sm', 'hover:bg-black/10'];
+        return ['ml-1', 'rounded-full', 'px-1', 'text-sm', 'hover:bg-black/10', 'focus-visible:outline', 'focus-visible:outline-2', 'focus-visible:outline-offset-1'];
     }
 
     /**
@@ -1748,7 +1748,7 @@ final class DefaultTheme implements ThemeInterface
         $map = ['sm' => 'h-4 w-4', 'md' => 'h-6 w-6', 'lg' => 'h-8 w-8'];
 
         return array_merge(
-            ['inline-block', 'animate-spin', 'rounded-full', 'border-2', 'border-teal-200', 'border-t-teal-700'],
+            ['inline-block', 'animate-spin', 'motion-reduce:animate-none', 'rounded-full', 'border-2', 'border-teal-200', 'border-t-teal-700'],
             explode(' ', $map[$size] ?? $map['md']),
         );
     }
@@ -1773,7 +1773,7 @@ final class DefaultTheme implements ThemeInterface
     {
         $base = ['h-full', 'rounded-full', 'bg-teal-600'];
         if (! empty($state['indeterminate'])) {
-            return array_merge($base, ['w-1/3', 'animate-pulse']);
+            return array_merge($base, ['w-1/3', 'animate-pulse', 'motion-reduce:animate-none']);
         }
 
         return $base;
@@ -1786,7 +1786,7 @@ final class DefaultTheme implements ThemeInterface
     private function skeleton(array $state): array
     {
         $variant = (string) ($state['variant'] ?? 'text');
-        $base = ['animate-pulse', 'rounded', 'bg-slate-200'];
+        $base = ['animate-pulse', 'motion-reduce:animate-none', 'rounded', 'bg-slate-200', 'dark:bg-slate-700'];
 
         return match ($variant) {
             'avatar' => array_merge($base, ['h-12', 'w-12', 'rounded-full']),
@@ -1813,10 +1813,10 @@ final class DefaultTheme implements ThemeInterface
     {
         $tone = (string) ($state['tone'] ?? 'info');
         $tones = [
-            'info' => ['bg-sky-50', 'text-sky-900', 'border-sky-200'],
-            'success' => ['bg-emerald-50', 'text-emerald-900', 'border-emerald-200'],
-            'warning' => ['bg-amber-50', 'text-amber-950', 'border-amber-200'],
-            'danger' => ['bg-rose-50', 'text-rose-900', 'border-rose-200'],
+            'info' => ['bg-sky-50', 'text-sky-900', 'border-sky-200', 'dark:bg-sky-950', 'dark:text-sky-100', 'dark:border-sky-800'],
+            'success' => ['bg-emerald-50', 'text-emerald-900', 'border-emerald-200', 'dark:bg-emerald-950', 'dark:text-emerald-100', 'dark:border-emerald-800'],
+            'warning' => ['bg-amber-50', 'text-amber-950', 'border-amber-200', 'dark:bg-amber-950', 'dark:text-amber-100', 'dark:border-amber-800'],
+            'danger' => ['bg-rose-50', 'text-rose-900', 'border-rose-200', 'dark:bg-rose-950', 'dark:text-rose-100', 'dark:border-rose-800'],
         ];
 
         return array_merge(
@@ -1849,7 +1849,7 @@ final class DefaultTheme implements ThemeInterface
      */
     private function alertDismiss(array $state): array
     {
-        return ['absolute', 'right-2', 'top-2', 'rounded', 'px-1', 'hover:bg-black/5'];
+        return ['absolute', 'right-2', 'top-2', 'rounded', 'px-1', 'hover:bg-black/5', 'focus-visible:outline', 'focus-visible:outline-2', 'focus-visible:outline-offset-1'];
     }
 
     /**
@@ -1908,7 +1908,7 @@ final class DefaultTheme implements ThemeInterface
      */
     private function modalDialog(array $state): array
     {
-        return ['relative', 'z-10', 'w-full', 'max-w-lg', 'rounded-xl', 'bg-white', 'p-6', 'shadow-xl'];
+        return ['relative', 'z-10', 'w-full', 'max-w-lg', 'rounded-xl', 'bg-white', 'dark:bg-slate-900', 'p-6', 'shadow-xl', 'focus:outline-none'];
     }
 
     /**
@@ -1917,7 +1917,7 @@ final class DefaultTheme implements ThemeInterface
      */
     private function modalTitle(array $state): array
     {
-        return ['mb-2', 'pr-8', 'text-lg', 'font-semibold', 'text-slate-900'];
+        return ['mb-2', 'pr-8', 'text-lg', 'font-semibold', 'text-slate-900', 'dark:text-slate-100'];
     }
 
     /**
@@ -1926,7 +1926,7 @@ final class DefaultTheme implements ThemeInterface
      */
     private function modalBody(array $state): array
     {
-        return ['text-sm', 'text-slate-600'];
+        return ['text-sm', 'text-slate-600', 'dark:text-slate-300'];
     }
 
     /**
@@ -1944,7 +1944,7 @@ final class DefaultTheme implements ThemeInterface
      */
     private function modalClose(array $state): array
     {
-        return ['absolute', 'right-3', 'top-3', 'rounded', 'px-2', 'text-lg', 'text-slate-500', 'hover:bg-slate-100'];
+        return ['absolute', 'right-3', 'top-3', 'rounded', 'px-2', 'text-lg', 'text-slate-500', 'hover:bg-slate-100', 'dark:text-slate-300', 'dark:hover:bg-slate-800', 'focus-visible:outline', 'focus-visible:outline-2', 'focus-visible:outline-offset-1'];
     }
 
     /**
@@ -1975,7 +1975,7 @@ final class DefaultTheme implements ThemeInterface
         $pos = $side === 'left' ? ['left-0'] : ['right-0'];
 
         return array_merge(
-            ['absolute', 'top-0', 'h-full', 'w-full', 'max-w-sm', 'bg-white', 'p-6', 'shadow-xl'],
+            ['absolute', 'top-0', 'h-full', 'w-full', 'max-w-sm', 'bg-white', 'dark:bg-slate-900', 'p-6', 'shadow-xl', 'focus:outline-none'],
             $pos,
         );
     }
@@ -2031,7 +2031,7 @@ final class DefaultTheme implements ThemeInterface
      */
     private function popoverPanel(array $state): array
     {
-        return ['absolute', 'z-20', 'mt-2', 'min-w-[12rem]', 'rounded-lg', 'border', 'border-slate-200', 'bg-white', 'p-3', 'shadow-lg'];
+        return ['absolute', 'z-20', 'mt-2', 'min-w-[12rem]', 'rounded-lg', 'border', 'border-slate-200', 'dark:border-slate-700', 'bg-white', 'dark:bg-slate-900', 'text-slate-700', 'dark:text-slate-200', 'p-3', 'shadow-lg'];
     }
 
     /**
@@ -2085,7 +2085,7 @@ final class DefaultTheme implements ThemeInterface
      */
     private function dropdownPanel(array $state): array
     {
-        return ['absolute', 'right-0', 'z-20', 'mt-2', 'min-w-[10rem]', 'rounded-lg', 'border', 'border-slate-200', 'bg-white', 'py-1', 'shadow-lg'];
+        return ['absolute', 'right-0', 'z-20', 'mt-2', 'min-w-[10rem]', 'rounded-lg', 'border', 'border-slate-200', 'dark:border-slate-700', 'bg-white', 'dark:bg-slate-900', 'py-1', 'shadow-lg'];
     }
 
     /**
@@ -2103,7 +2103,7 @@ final class DefaultTheme implements ThemeInterface
      */
     private function dropdownItem(array $state): array
     {
-        $classes = ['block', 'w-full', 'px-3', 'py-2', 'text-left', 'text-sm', 'text-slate-700', 'hover:bg-slate-50'];
+        $classes = ['block', 'w-full', 'px-3', 'py-2', 'text-left', 'text-sm', 'text-slate-700', 'dark:text-slate-200', 'hover:bg-slate-50', 'dark:hover:bg-slate-800', 'focus-visible:outline', 'focus-visible:outline-2', 'focus-visible:outline-offset-2'];
         if (! empty($state['danger'])) {
             $classes[] = 'text-rose-700';
         }
@@ -2120,7 +2120,7 @@ final class DefaultTheme implements ThemeInterface
      */
     private function accordion(array $state): array
     {
-        return ['divide-y', 'divide-slate-200', 'rounded-lg', 'border', 'border-slate-200', 'bg-white'];
+        return ['divide-y', 'divide-slate-200', 'dark:divide-slate-700', 'rounded-lg', 'border', 'border-slate-200', 'dark:border-slate-700', 'bg-white', 'dark:bg-slate-900'];
     }
 
     /**
@@ -2147,7 +2147,7 @@ final class DefaultTheme implements ThemeInterface
      */
     private function accordionButton(array $state): array
     {
-        return ['flex', 'w-full', 'items-center', 'justify-between', 'px-4', 'py-3', 'text-left', 'hover:bg-slate-50'];
+        return ['flex', 'w-full', 'items-center', 'justify-between', 'px-4', 'py-3', 'text-left', 'text-slate-900', 'dark:text-slate-100', 'hover:bg-slate-50', 'dark:hover:bg-slate-800', 'focus-visible:outline', 'focus-visible:outline-2', 'focus-visible:outline-offset-2'];
     }
 
     /**
@@ -2156,7 +2156,7 @@ final class DefaultTheme implements ThemeInterface
      */
     private function accordionPanel(array $state): array
     {
-        return ['px-4', 'pb-4', 'text-sm', 'text-slate-600'];
+        return ['px-4', 'pb-4', 'text-sm', 'text-slate-600', 'dark:text-slate-300'];
     }
 
     /**
@@ -2174,7 +2174,7 @@ final class DefaultTheme implements ThemeInterface
      */
     private function tabsList(array $state): array
     {
-        return ['mb-4', 'flex', 'gap-1', 'border-b', 'border-slate-200'];
+        return ['mb-4', 'flex', 'gap-1', 'border-b', 'border-slate-200', 'dark:border-slate-700'];
     }
 
     /**
@@ -2186,8 +2186,8 @@ final class DefaultTheme implements ThemeInterface
         $active = ! empty($state['active']);
 
         return $active
-            ? ['-mb-px', 'border-b-2', 'border-teal-600', 'px-3', 'py-2', 'text-sm', 'font-semibold', 'text-teal-800']
-            : ['-mb-px', 'border-b-2', 'border-transparent', 'px-3', 'py-2', 'text-sm', 'text-slate-600', 'hover:text-slate-900'];
+            ? ['-mb-px', 'border-b-2', 'border-teal-600', 'px-3', 'py-2', 'text-sm', 'font-semibold', 'text-teal-800', 'dark:text-teal-200', 'focus-visible:outline', 'focus-visible:outline-2', 'focus-visible:outline-offset-2']
+            : ['-mb-px', 'border-b-2', 'border-transparent', 'px-3', 'py-2', 'text-sm', 'text-slate-600', 'dark:text-slate-300', 'hover:text-slate-900', 'dark:hover:text-white', 'focus-visible:outline', 'focus-visible:outline-2', 'focus-visible:outline-offset-2'];
     }
 
     /**
@@ -2196,7 +2196,7 @@ final class DefaultTheme implements ThemeInterface
      */
     private function tabsPanel(array $state): array
     {
-        return ['text-sm', 'text-slate-700'];
+        return ['text-sm', 'text-slate-700', 'dark:text-slate-200'];
     }
 
     private function spacingClass(string $prefix, mixed $value): string

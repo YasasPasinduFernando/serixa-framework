@@ -141,6 +141,9 @@ final class DataDisplayTest extends TestCase
         $initials = Avatar::make()->initials('al')->square()->render();
         $this->assertStringContainsString('AL', $initials);
         $this->assertStringContainsString('rounded-md', $initials);
+
+        $unicodeInitials = Avatar::make()->initials('Åsa')->render();
+        $this->assertStringContainsString('ÅSA', $unicodeInitials);
     }
 
     public function testImageAndLogo(): void

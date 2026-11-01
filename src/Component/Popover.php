@@ -8,6 +8,7 @@ use Serixa\Component\Concerns\ResolvesTheme;
 use Serixa\Component\Concerns\ResolvesWidgetId;
 use Serixa\Contracts\WidgetInterface;
 use Serixa\Exception\InvalidArgumentException;
+use Serixa\Widget\Widget;
 
 /**
  * Anchored popover panel.
@@ -24,6 +25,8 @@ final class Popover extends Component
     private WidgetInterface|string|null $content = null;
 
     private bool $open = false;
+
+    private ?string $ariaLabel = null;
 
     private function __construct()
     {
@@ -56,6 +59,13 @@ final class Popover extends Component
         return $this;
     }
 
+    public function ariaLabel(string $label): self
+    {
+        $this->ariaLabel = $label;
+
+        return $this;
+    }
+
     public function childrenForTree(): array
     {
         $nodes = [];
@@ -82,17 +92,30 @@ final class Popover extends Component
         $id = $this->resolveWidgetId('popover');
         $panelId = $id . '-panel';
 
-        $triggerWrap = sprintf(
-            '<div%s data-serixa-popover-trigger>%s</div>',
-            $this->buildStructuralAttributeString($this->theme()->classes('popover.trigger')),
-            $this->renderChild($this->trigger),
-        );
+        $triggerAttributes = [
+            'data-serixa-popover-trigger' => true,
+            'aria-haspopup' => 'dialog',
+            'aria-expanded' => $this->open ? 'true' : 'false',
+            'aria-controls' => $panelId,
+        ];
+
+        if ($this->trigger instanceof Widget) {
+            $trigger = clone $this->trigger;
+            $triggerWrap = $trigger->attributes($triggerAttributes)->render();
+        } else {
+            $triggerWrap = sprintf(
+                '<button%s type="button">%s</button>',
+                $this->buildStructuralAttributeString($this->theme()->classes('popover.trigger'), $triggerAttributes),
+                $this->renderChild($this->trigger),
+            );
+        }
 
         $panelAttrs = $this->buildStructuralAttributeString(
             $this->theme()->classes('popover.panel', ['open' => $this->open]),
             [
                 'id' => $panelId,
                 'role' => 'dialog',
+                'aria-label' => $this->ariaLabel ?? 'Popover',
                 'data-serixa-popover-panel' => true,
                 'hidden' => $this->open ? null : true,
             ],

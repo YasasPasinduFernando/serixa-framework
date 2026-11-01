@@ -38,7 +38,13 @@ final class Progress extends Component
 
     public function value(float|int $value): self
     {
-        $this->value = (float) $value;
+        $value = (float) $value;
+
+        if (! is_finite($value)) {
+            throw new InvalidArgumentException('Progress value must be a finite number.');
+        }
+
+        $this->value = $value;
 
         return $this;
     }
@@ -47,8 +53,8 @@ final class Progress extends Component
     {
         $max = (float) $max;
 
-        if ($max <= 0) {
-            throw new InvalidArgumentException('Progress max must be greater than zero.');
+        if (! is_finite($max) || $max <= 0) {
+            throw new InvalidArgumentException('Progress max must be a finite number greater than zero.');
         }
 
         $this->max = $max;
@@ -74,7 +80,8 @@ final class Progress extends Component
     public function render(): string
     {
         $indeterminate = $this->value === null;
-        $percent = $indeterminate ? null : max(0.0, min(100.0, ($this->value / $this->max) * 100.0));
+        $normalizedValue = $indeterminate ? null : max(0.0, min($this->max, $this->value ?? 0.0));
+        $percent = $indeterminate ? null : (($normalizedValue ?? 0.0) / $this->max) * 100.0;
 
         $attrs = $this->buildAttributeString(
             $this->theme()->classes('progress', ['size' => $this->size, 'indeterminate' => $indeterminate]),
@@ -82,7 +89,7 @@ final class Progress extends Component
                 'role' => 'progressbar',
                 'aria-valuemin' => '0',
                 'aria-valuemax' => (string) $this->max,
-                'aria-valuenow' => $indeterminate ? null : (string) $this->value,
+                'aria-valuenow' => $indeterminate ? null : (string) $normalizedValue,
                 'aria-label' => $this->label ?? 'Progress',
                 'data-serixa-progress' => true,
             ],

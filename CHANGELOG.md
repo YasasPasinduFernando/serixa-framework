@@ -5,6 +5,22 @@ All notable changes to SERIXA are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [v1.0.2] - 2026-11-01
+
+### Added
+- Accessible fallback labels and configurable `ariaLabel()` APIs for Modal, Drawer, and Popover.
+- Dark-mode, reduced-motion, and keyboard focus styling across feedback and interactive components.
+
+### Fixed
+- Attach dropdown and popover ARIA state to the actual focusable trigger and keep runtime state synchronized.
+- Trap focus inside drawers, restore trigger focus on overlay close, and close popovers on outside click.
+- Clamp Progress visual and ARIA values to its declared range and reject non-finite values.
+- Render Avatar initials without requiring the optional mbstring extension.
+- Prevent hidden interactive panels from flashing when utility display classes are present.
+
+### Documentation
+- Add a responsive living component catalog, complete path-style sitemap, and hardened Cloudflare deployment headers.
+
 ## [v1.0.1] - 2026-10-31
 
 ### Security
